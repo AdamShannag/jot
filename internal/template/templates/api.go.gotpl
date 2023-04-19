@@ -1,0 +1,32 @@
+package api
+
+import (
+	chmid "github.com/go-chi/chi/middleware"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/cors"
+)
+
+func NewMux() *chi.Mux {
+	var (
+		mux = chi.NewMux()
+		// create handlers here
+	)
+
+	mux.Use(cors.Handler(cors.Options{
+		AllowedOrigins:   []string{"https://*", "http://*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: true,
+		MaxAge:           300,
+	}))
+
+	mux.Use(chmid.Heartbeat("/ping"))
+	mux.Use(chmid.RequestID)
+	mux.Use(chmid.RealIP)
+	mux.Use(chmid.Recoverer)
+
+	// mount handlers here
+
+	return mux
+}

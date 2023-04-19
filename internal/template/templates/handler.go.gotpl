@@ -1,0 +1,40 @@
+package {{.EndpointName}}
+
+import (
+	"net/http"
+	"github.com/go-chi/chi"
+)
+
+type {{.EndpointName}} struct {
+	*chi.Mux
+    // add extra members here, such as your repo or client
+}
+
+func New{{.EndpointName}} (extras ...any) {{.EndpointName}} {
+	h := {{.EndpointName}}{
+		Mux:        chi.NewMux(),
+        // initialize extra members here, such as your repo or client
+	}
+
+    // add rest endpoints 
+	h.Get("/", h.Index)
+	h.Post("/", h.Create)
+	h.Delete("/", h.Clear)
+
+	return h
+}
+
+// Index handle GET /.
+func (h {{.EndpointName}}) Index(w http.ResponseWriter, r *http.Request) {
+	// TODO implement method
+}
+
+// Create handle POST /
+func (h {{.EndpointName}}) Create(w http.ResponseWriter, r *http.Request) {
+	// TODO implement method
+}
+
+// Clear handle DELETE /
+func (h {{.EndpointName}}) Clear(w http.ResponseWriter, r *http.Request) {
+	// TODO implement method
+}

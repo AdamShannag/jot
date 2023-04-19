@@ -1,0 +1,45 @@
+package main
+
+import (
+	"fmt"
+	"os"
+	"time"
+
+	"github.com/AdamShannag/jot/internal/command"
+	"github.com/fatih/color"
+	"github.com/urfave/cli/v2"
+)
+
+const VERSION = "v1.0.0"
+
+func main() {
+	app := &cli.App{
+		Name:     "jot",
+		Version:  VERSION,
+		Compiled: time.Now(),
+		Authors: []*cli.Author{
+			{
+				Name:  "Adam Shannaq",
+				Email: "adamsgtrs@gmail.com",
+			},
+			{
+				Name:  "Mohammad Yassen",
+				Email: "mohammad.t.yaseen1@gmail.com",
+			},
+		},
+		Copyright: "(c) 2023 jot",
+		HelpName:  "help",
+		Usage:     "jot - quickly generate microservices and related components",
+		UsageText: "help - displays information about available commands.",
+		Commands:  command.Commands(),
+		Action: func(*cli.Context) error {
+			fmt.Println("Hello friend!")
+			return nil
+		},
+	}
+
+	if err := app.Run(os.Args); err != nil {
+		color.Red(err.Error())
+		os.Exit(1)
+	}
+}
