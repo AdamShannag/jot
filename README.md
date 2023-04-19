@@ -3,7 +3,7 @@ Quickly generate microservices and related components
 
 ## Installation
 ```
-go install github.com/AdamShannag/jot
+go install -v github.com/AdamShannag/jot/cmd/jot@latest
 ```
 
 ## Commands
