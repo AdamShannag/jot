@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"time"
 
+	"github.com/AdamShannag/jot/internal/box"
 	"github.com/AdamShannag/jot/internal/command"
 	"github.com/fatih/color"
 	"github.com/urfave/cli/v2"
@@ -33,7 +33,7 @@ func main() {
 		UsageText: "help - displays information about available commands.",
 		Commands:  command.Commands(),
 		Action: func(*cli.Context) error {
-			fmt.Println("Hello friend!")
+			box.Welcome()
 			return nil
 		},
 	}
