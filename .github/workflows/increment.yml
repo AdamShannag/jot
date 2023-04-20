@@ -14,8 +14,8 @@ jobs:
       - name: Taking the Latest Release Tag number
         id: releaseVersion
         run: |
-          owner="<owner`s name>"
-          repo="<repo`s name>"
+          owner="AdamShannag"
+          repo="jot"
           release_json=$(curl https://api.github.com/repos/$owner/$repo/releases)
           Release_tag=$(echo "$release_json" | jq -r '.[0].tag_name')
           echo "Release_tag: Latest Tag is : $Release_tag"
