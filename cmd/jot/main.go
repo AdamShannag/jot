@@ -33,7 +33,7 @@ func main() {
 		UsageText: "help - displays information about available commands.",
 		Commands:  command.Commands(),
 		Action: func(*cli.Context) error {
-			fmt.Println("Hello friend!")
+			fmt.Println("Hello world!")
 			return nil
 		},
 	}
