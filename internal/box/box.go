@@ -12,7 +12,7 @@ const (
 	github = "https://github.com/AdamShannag/jot"
 )
 
-func Welcome() {
+func Welcome() string {
 	Box := box.New(
 		box.Config{
 			Px:           5,
@@ -23,4 +23,5 @@ func Welcome() {
 		},
 	)
 	Box.Print("Jot", fmt.Sprintf("%s\n\n%s", header, color.BlueString(github)))
+	return Box.String("Jot", fmt.Sprintf("%s\n\n%s", header, color.BlueString(github)))
 }

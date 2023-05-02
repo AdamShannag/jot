@@ -1,4 +1,4 @@
-package command
+package log
 
 import (
 	"fmt"
@@ -12,7 +12,7 @@ const (
 	FAILED
 )
 
-func logM(source string, action int) {
+func Info(source string, action int) {
 	sr := color.CyanString(source)
 	switch action {
 	case CREATED:
