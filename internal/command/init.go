@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/AdamShannag/jot/internal/command/new"
+	p "github.com/AdamShannag/jot/internal/command/path"
 	"github.com/AdamShannag/jot/internal/io"
 	"github.com/AdamShannag/jot/internal/types"
 	"github.com/urfave/cli/v2"
@@ -26,9 +27,9 @@ func ini() *cli.Command {
 
 			s := types.NewSpecs(cCtx.Args().Get(1), nil, nil)
 
-			path := fmt.Sprintf(projectDirPath, cCtx.Args().Get(0), cCtx.Args().Get(1))
+			path := fmt.Sprintf(p.ProjectDirPath, cCtx.Args().Get(0), cCtx.Args().Get(1))
 			if b, err := types.ToYamlString(s); err == nil {
-				io.ToEmptyFile(path, jotFile, b)
+				io.ToEmptyFile(path, p.JotFile, b)
 			} else {
 				return err
 			}
