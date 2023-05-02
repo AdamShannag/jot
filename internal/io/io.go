@@ -13,6 +13,11 @@ import (
 
 var appFs = afero.NewOsFs()
 
+func SwitchToMemMap() afero.Fs {
+	appFs = afero.NewMemMapFs()
+	return appFs
+}
+
 func ToSpecs(path string) (*types.Specs, error) {
 	specs := types.Specs{}
 	b, err := afero.ReadFile(appFs, path)

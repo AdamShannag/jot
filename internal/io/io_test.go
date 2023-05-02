@@ -33,7 +33,7 @@ func Test_ToSpecs(t *testing.T) {
 }
 
 func Test_ToEmptyFile(t *testing.T) {
-	appFs = afero.NewMemMapFs()
+	SwitchToMemMap()
 
 	data := "some data"
 	path := "./test/"
@@ -60,7 +60,7 @@ func Test_ToEmptyFile(t *testing.T) {
 }
 
 func Test_ToFile(t *testing.T) {
-	appFs = afero.NewMemMapFs()
+	SwitchToMemMap()
 
 	data := "some data"
 	path := "./test/"
@@ -87,7 +87,7 @@ func Test_ToFile(t *testing.T) {
 }
 
 func Test_ToDirs(t *testing.T) {
-	appFs = afero.NewMemMapFs()
+	SwitchToMemMap()
 
 	path := "./test/dir1/dir2/"
 
@@ -102,7 +102,7 @@ func Test_ToDirs(t *testing.T) {
 }
 
 func Test_FileExists(t *testing.T) {
-	appFs = afero.NewMemMapFs()
+	SwitchToMemMap()
 
 	data := "some data"
 	path := "./test/"
@@ -119,6 +119,8 @@ func Test_FileExists(t *testing.T) {
 }
 
 func Test_TplToFile(t *testing.T) {
+	SwitchToMemMap()
+
 	tpl := "test.test.gotpl"
 	tplPath := "./test_data/test.test.gotpl"
 	filename := "test.test"
