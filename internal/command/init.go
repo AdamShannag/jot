@@ -1,7 +1,6 @@
 package command
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/AdamShannag/jot/internal/command/new"
@@ -16,18 +15,24 @@ func ini() *cli.Command {
 		"init",
 		[]string{"i"},
 		"creation",
-		"Create a new project with the specified path and name.",
+		"Create a new project at the specified path.",
 		"init [project-path] [project-name]",
-		"This command will create a new project with the specified path and name, along with any necessary files and directories.\nOnce created, you can then begin working on the project as needed.",
+		"This command will create a new project at the specified path, along with any necessary files and directories.\nOnce created, you can then begin working on the project as needed.",
 		nil,
 		func(cCtx *cli.Context) error {
-			if cCtx.Args().Len() < 2 {
-				return errors.New("you must specify a path and project name when using this command, see help for more")
+			pathArg := cCtx.Args().First()
+			if pathArg == "" {
+				pathArg = "./"
 			}
 
-			s := types.NewSpecs(cCtx.Args().Get(1), nil, nil)
+			projectName := cCtx.Args().Get(1)
+			path := fmt.Sprintf(p.ProjectDirPath, pathArg, projectName)
+			if projectName == "" {
+				projectName = "source"
+				path = pathArg
+			}
 
-			path := fmt.Sprintf(p.ProjectDirPath, cCtx.Args().Get(0), cCtx.Args().Get(1))
+			s := types.NewSpecs(projectName, nil, nil)
 			if b, err := types.ToYamlString(s); err == nil {
 				io.ToEmptyFile(path, p.JotFile, b)
 			} else {
