@@ -1,9 +1,8 @@
 package api
 
 import (
-	chmid "github.com/go-chi/chi/middleware"
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/cors"
+	{{ range .Imports }}"{{ . }}"
+	{{ end }}
 )
 
 func NewMux() *chi.Mux {
@@ -21,10 +20,10 @@ func NewMux() *chi.Mux {
 		MaxAge:           300,
 	}))
 
-	mux.Use(chmid.Heartbeat("/ping"))
-	mux.Use(chmid.RequestID)
-	mux.Use(chmid.RealIP)
-	mux.Use(chmid.Recoverer)
+	mux.Use(middleware.Heartbeat("/ping"))
+	mux.Use(middleware.RequestID)
+	mux.Use(middleware.RealIP)
+	mux.Use(middleware.Recoverer)
 
 	// mount handlers here
 

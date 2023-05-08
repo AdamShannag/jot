@@ -1,0 +1,12 @@
+gotidy:
+	@go mod tidy
+gofmt:
+	@go fmt ./...
+{{ if .ModuleName }}
+initmod:
+	@go mod init {{ .ModuleName }}{{ end }}
+{{ if .GoModules }}
+getmods:
+	{{ range .GoModules }}@go get {{ . }}
+	{{ end }}
+{{ end }}

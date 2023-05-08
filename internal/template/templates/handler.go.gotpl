@@ -1,8 +1,8 @@
-package {{.EndpointName}}
+package {{.PackageName}}
 
 import (
-	"net/http"
-	"github.com/go-chi/chi"
+	{{ range .Imports }}"{{ . }}"
+	{{ end }}
 )
 
 type {{.EndpointName}} struct {

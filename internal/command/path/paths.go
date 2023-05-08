@@ -17,7 +17,6 @@ const (
 
 	// go.mod
 	GoModFileName = "go.mod"
-	GoModTpl      = "go.mod.gotpl"
 	GoModPath     = "./%s/"
 
 	// .dockerfile

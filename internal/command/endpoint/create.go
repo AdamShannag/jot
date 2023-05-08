@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/AdamShannag/jot/internal/command/log"
+	"github.com/AdamShannag/jot/internal/command/module"
 	p "github.com/AdamShannag/jot/internal/command/path"
 	s "github.com/AdamShannag/jot/internal/command/suffix"
 	"github.com/AdamShannag/jot/internal/template"
@@ -31,9 +32,13 @@ func UpdateAll(endpoints []string, specs *types.Specs, i int, service string) {
 func New(service string, endpoint string) {
 	s.ServiceSuffix(&service)
 
+	handlerData := tpls.Handler{
+		EndpointName: s.TitleCase(endpoint),
+		PackageName:  s.LowerCase(endpoint),
+	}
+	handlerData.AddModules(module.NetHttp, module.GoChi)
 	// create handlers files
-	template.Create(p.HandlerTpl, fmt.Sprintf(p.HandlerPath, service, endpoint), s.GoSuffix(endpoint),
-		tpls.Handler{EndpointName: s.TitleCase(endpoint)})
+	template.Create(p.HandlerTpl, fmt.Sprintf(p.HandlerPath, service, endpoint), s.GoSuffix(endpoint), handlerData)
 }
 
 func CreateAll(service string, endpoints []string) {

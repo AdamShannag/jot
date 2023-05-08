@@ -85,3 +85,10 @@ func TplToFile(tmpl *template.Template, tpl string, path string, name string, da
 		log.Fatal(err)
 	}
 }
+
+func RemoveFile(file string) {
+	err := appFs.Remove(file)
+	if err != nil {
+		log.Panic(err)
+	}
+}
