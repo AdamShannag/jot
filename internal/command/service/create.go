@@ -6,6 +6,7 @@ import (
 
 	"github.com/AdamShannag/jot/internal/command/endpoint"
 	"github.com/AdamShannag/jot/internal/command/log"
+	"github.com/AdamShannag/jot/internal/command/module"
 	p "github.com/AdamShannag/jot/internal/command/path"
 	s "github.com/AdamShannag/jot/internal/command/suffix"
 	"github.com/AdamShannag/jot/internal/io"
@@ -17,10 +18,6 @@ import (
 func New(service string, isRest bool, endpoints []string, specs *types.Specs, port int) {
 	srv := service
 	s.ServiceSuffix(&srv)
-
-	// create go.mod
-	template.Create(p.GoModTpl, p.Path(p.GoModPath, srv), p.GoModFileName,
-		tpls.GoModule{ModuleName: srv})
 
 	// create service directoies
 	createService(service, isRest)
@@ -43,17 +40,25 @@ func createService(name string, rest bool) {
 	s.ServiceSuffix(&service)
 
 	// create service directories cmd, bin, api
-
 	io.ToDirs(fmt.Sprintf(p.MainDirPath, service, name))
 	io.ToDirs(p.Path(p.BinDirPath, service))
 	io.ToDirs(p.Path(p.ApiDirPath, service))
 
 	// create api directories if rest handler, middleware
 	if rest {
-		template.Create(p.ApiTpl, p.Path(p.ApiDirPath, service), p.ApiFileName, nil)
-		io.ToDirs(p.Path(p.HandlerDirPath, service))
-		io.ToDirs(p.Path(p.MiddelwareDirPath, service))
+		createRest(service)
 	}
 
 	log.Info("Service", log.CREATED)
+}
+
+func createRest(service string) {
+	// fill in api data
+	apiData := tpls.Api{}
+	apiData.AddModules(module.GoChi, module.GoChiCors, module.GoChiMiddleware)
+	template.Create(p.ApiTpl, p.Path(p.ApiDirPath, service), p.ApiFileName, apiData)
+
+	// create handlers and middelwares
+	io.ToDirs(p.Path(p.HandlerDirPath, service))
+	io.ToDirs(p.Path(p.MiddelwareDirPath, service))
 }

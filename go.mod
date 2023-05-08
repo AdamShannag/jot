@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/Delta456/box-cli-maker/v2 v2.3.0
+	github.com/briandowns/spinner v1.23.0
 	github.com/fatih/color v1.15.0
 	github.com/spf13/afero v1.9.5
 	github.com/urfave/cli/v2 v2.25.1
@@ -24,5 +25,5 @@ require (
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect
 	golang.org/x/sys v0.6.0 // indirect
-	golang.org/x/term v0.0.0-20221017184919-83659145692c // indirect
+	golang.org/x/term v0.1.0 // indirect
 )

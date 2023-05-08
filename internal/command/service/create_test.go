@@ -25,7 +25,6 @@ func Test_New(t *testing.T) {
 	New(newServiceName, true, endpoints, s, 8082)
 
 	paths := []string{
-		fullPath(path.GoModPath, newServiceName, path.GoModFileName),
 		fullPath(path.DockerImagePath, newServiceName, suffix.DockerfileSuffix(newServiceName)),
 		fullPath(path.ApiDirPath, newServiceName, path.ApiFileName),
 		fullPath(path.BinDirPath, newServiceName, ""),
