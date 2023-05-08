@@ -10,7 +10,6 @@ import (
 	p "github.com/AdamShannag/jot/internal/command/path"
 	s "github.com/AdamShannag/jot/internal/command/suffix"
 	"github.com/AdamShannag/jot/internal/io"
-	"github.com/AdamShannag/jot/internal/makefile"
 	"github.com/AdamShannag/jot/internal/template"
 	"github.com/AdamShannag/jot/internal/types"
 	"github.com/AdamShannag/jot/internal/types/tpls"
@@ -40,12 +39,6 @@ func createService(name string, rest bool) {
 	name = strings.Replace(name, "-service", "", 1)
 	s.ServiceSuffix(&service)
 
-	mk := makefile.New(p.Path(p.GoModPath, service), 10)
-	// go mod init
-	mk.InitMod(service)
-
-	defer mk.Build()
-
 	// create service directories cmd, bin, api
 	io.ToDirs(fmt.Sprintf(p.MainDirPath, service, name))
 	io.ToDirs(p.Path(p.BinDirPath, service))
@@ -53,15 +46,8 @@ func createService(name string, rest bool) {
 
 	// create api directories if rest handler, middleware
 	if rest {
-		// go get
-		mk.GetGoModules(module.GoChi, module.GoChiCors, module.GoChiMiddleware)
 		createRest(service)
 	}
-
-	// go tidy
-	mk.GoTidy()
-	// go fmt
-	mk.GoFmt()
 
 	log.Info("Service", log.CREATED)
 }

@@ -4,10 +4,13 @@ import (
 	"errors"
 
 	"github.com/AdamShannag/jot/internal/command/endpoint"
+	"github.com/AdamShannag/jot/internal/command/module"
 	"github.com/AdamShannag/jot/internal/command/new"
 	p "github.com/AdamShannag/jot/internal/command/path"
 	srv "github.com/AdamShannag/jot/internal/command/service"
+	"github.com/AdamShannag/jot/internal/command/suffix"
 	"github.com/AdamShannag/jot/internal/io"
+	"github.com/AdamShannag/jot/internal/makefile"
 	"github.com/AdamShannag/jot/internal/types"
 	"github.com/urfave/cli/v2"
 )
@@ -48,6 +51,12 @@ func add() *cli.Command {
 			endpoints := cCtx.StringSlice("endpoints")
 			service := cCtx.String("service")
 
+			_service := service
+			suffix.ServiceSuffix(&_service)
+
+			mk := makefile.New(p.Path(p.GoModPath, _service), 10)
+			defer mk.Build()
+
 			// endpoints specified but rest flag is off
 			if !isRest && len(endpoints) > 0 {
 				return errors.New("--endpoints flag is specified but --rest flag is not")
@@ -57,8 +66,17 @@ func add() *cli.Command {
 			if ok, i := types.IsExistingService(specs.Services, service); ok {
 				endpoint.UpdateAll(endpoints, specs, i, service)
 			} else {
+				mk.InitMod(service)
+				if isRest {
+					mk.GetGoModules(module.GoChi, module.GoChiCors, module.GoChiMiddleware)
+				}
 				srv.New(service, isRest, endpoints, specs, port)
 			}
+
+			// go tidy
+			mk.GoTidy()
+			// go fmt
+			mk.GoFmt()
 
 			// write new specs to jot.yaml file
 			if b, err := types.ToYamlString(specs); err == nil {

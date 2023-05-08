@@ -36,7 +36,7 @@ func New(service string, endpoint string) {
 		EndpointName: s.TitleCase(endpoint),
 		PackageName:  s.LowerCase(endpoint),
 	}
-	handlerData.AddModules(module.NetHttp, module.GoChi)
+	handlerData.AddModules(module.GoChi, module.NetHttp)
 	// create handlers files
 	template.Create(p.HandlerTpl, fmt.Sprintf(p.HandlerPath, service, endpoint), s.GoSuffix(endpoint), handlerData)
 }

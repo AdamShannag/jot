@@ -104,4 +104,5 @@ func (m *makefile) Build() {
 	for _, cmd := range m.commands {
 		m.execute(cmd)
 	}
+	m.data = make(map[string]any)
 }

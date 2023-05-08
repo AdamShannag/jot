@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/Delta456/box-cli-maker/v2 v2.3.0
+	github.com/briandowns/spinner v1.23.0
 	github.com/fatih/color v1.15.0
 	github.com/spf13/afero v1.9.5
 	github.com/urfave/cli/v2 v2.25.1
@@ -12,7 +13,6 @@ require (
 )
 
 require (
-	github.com/briandowns/spinner v1.23.0 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.2 // indirect
 	github.com/gookit/color v1.5.2 // indirect
 	github.com/huandu/xstrings v1.3.2 // indirect

@@ -41,7 +41,6 @@ func Test_Run_jot_add_service(t *testing.T) {
 
 	// test directories
 	checkFileOrDir(t, &appFs, "./test-service/bin/")
-	checkFileOrDir(t, &appFs, "./test-service/go.mod")
 	checkFileOrDir(t, &appFs, "./test-service/cmd/test/")
 	checkFileOrDir(t, &appFs, "./test-service/deploy/image/test-service.dockerfile")
 
@@ -67,7 +66,6 @@ func Test_Run_jot_add_service_endpoint(t *testing.T) {
 
 	// test directories
 	checkFileOrDir(t, &appFs, "./test-service/bin/")
-	checkFileOrDir(t, &appFs, "./test-service/go.mod")
 	checkFileOrDir(t, &appFs, "./test-service/cmd/test/")
 	checkFileOrDir(t, &appFs, "./test-service/deploy/image/test-service.dockerfile")
 	checkFileOrDir(t, &appFs, "./test-service/api/api.go")
