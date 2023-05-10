@@ -7,10 +7,11 @@ import (
 	p "github.com/AdamShannag/jot/internal/command/path"
 )
 
-func ServiceSuffix(name *string) {
-	if !strings.HasSuffix(*name, "-service") {
-		*name += "-service"
+func ServiceSuffix(name string) string {
+	if !strings.HasSuffix(name, "-service") {
+		return name + "-service"
 	}
+	return name
 }
 
 func DockerfileSuffix(filename string) string {

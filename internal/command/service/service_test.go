@@ -8,11 +8,12 @@ import (
 	"github.com/AdamShannag/jot/internal/command/path"
 	"github.com/AdamShannag/jot/internal/command/suffix"
 	"github.com/AdamShannag/jot/internal/io"
+	"github.com/AdamShannag/jot/internal/makefile"
 	"github.com/AdamShannag/jot/internal/types"
 	"github.com/spf13/afero"
 )
 
-func Test_New(t *testing.T) {
+func Test_NewService(t *testing.T) {
 	appFs := io.SwitchToMemMap()
 
 	endpoints := []string{"users", "posts"}
@@ -21,17 +22,13 @@ func Test_New(t *testing.T) {
 	newServiceName := "user-service"
 
 	s := types.NewSpecs("test", services, nil)
+	mk := makefile.New(path.Path(path.GoModPath, newServiceName), 10)
 
-	New(newServiceName, true, endpoints, s, 8082)
+	NewService(s, mk, &types.Service{Name: newServiceName, Port: 8082, Endpoints: endpoints})
 
 	paths := []string{
 		fullPath(path.DockerImagePath, newServiceName, suffix.DockerfileSuffix(newServiceName)),
-		fullPath(path.ApiDirPath, newServiceName, path.ApiFileName),
 		fullPath(path.BinDirPath, newServiceName, ""),
-		fullPath(path.HandlerDirPath, newServiceName, ""),
-		fullPath(path.MiddelwareDirPath, newServiceName, ""),
-		fmt.Sprintf(path.HandlerPath, newServiceName, endpoints[0]),
-		fmt.Sprintf(path.HandlerPath, newServiceName, endpoints[1]),
 	}
 
 	for _, path := range paths {
