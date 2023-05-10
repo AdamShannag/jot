@@ -66,7 +66,7 @@ func add() *cli.Command {
 			if ok, i := types.IsExistingService(specs.Services, service); ok {
 				endpoint.UpdateAll(endpoints, specs, i, service)
 			} else {
-				mk.InitMod(service)
+				mk.InitMod(_service)
 				if isRest {
 					mk.GetGoModules(module.GoChi, module.GoChiCors, module.GoChiMiddleware)
 				}
