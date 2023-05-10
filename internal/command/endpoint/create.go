@@ -30,20 +30,17 @@ func UpdateAll(endpoints []string, specs *types.Specs, i int, service string) {
 }
 
 func New(service string, endpoint string) {
-	s.ServiceSuffix(&service)
-
 	handlerData := tpls.Handler{
 		EndpointName: s.TitleCase(endpoint),
 		PackageName:  s.LowerCase(endpoint),
 	}
 	handlerData.AddModules(module.GoChi, module.NetHttp)
 	// create handlers files
-	template.Create(p.HandlerTpl, fmt.Sprintf(p.HandlerPath, service, endpoint), s.GoSuffix(endpoint), handlerData)
+	template.Create(p.HandlerTpl, fmt.Sprintf(p.HandlerPath, s.ServiceSuffix(service), endpoint), s.GoSuffix(endpoint), handlerData)
 }
 
 func CreateAll(service string, endpoints []string) {
-	s.ServiceSuffix(&service)
 	for _, e := range endpoints {
-		New(service, e)
+		New(s.ServiceSuffix(service), e)
 	}
 }

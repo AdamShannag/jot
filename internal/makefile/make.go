@@ -11,7 +11,7 @@ import (
 	"github.com/briandowns/spinner"
 )
 
-type makefile struct {
+type Makefile struct {
 	servicePath string
 	data        map[string]any
 	commands    []string
@@ -39,8 +39,8 @@ var (
 	tmpl      = template.Must(template.ParseFS(resources, "files/*"))
 )
 
-func New(servicePath string, timeout time.Duration) *makefile {
-	return &makefile{
+func New(servicePath string, timeout time.Duration) *Makefile {
+	return &Makefile{
 		servicePath: servicePath,
 		data:        make(map[string]any),
 		out:         make(chan output),
@@ -48,29 +48,29 @@ func New(servicePath string, timeout time.Duration) *makefile {
 	}
 }
 
-func (m *makefile) InitMod(name string) {
+func (m *Makefile) InitMod(name string) {
 	m.data["ModuleName"] = name
 	m.commands = append(m.commands, initmod)
 }
 
-func (m *makefile) GetGoModules(names ...string) {
+func (m *Makefile) GetGoModules(names ...string) {
 	m.data["GoModules"] = names
 	m.commands = append(m.commands, getmods)
 }
 
-func (m *makefile) GoTidy() {
+func (m *Makefile) GoTidy() {
 	m.commands = append(m.commands, gotidy)
 }
 
-func (m *makefile) GoFmt() {
+func (m *Makefile) GoFmt() {
 	m.commands = append(m.commands, gofmt)
 }
 
-func (m *makefile) Close() {
+func (m *Makefile) Close() {
 	close(m.out)
 }
 
-func (m *makefile) execute(command ...string) {
+func (m *Makefile) execute(command ...string) {
 	cms := []string{"-C", m.servicePath}
 	cms = append(cms, command...)
 
@@ -90,7 +90,7 @@ func (m *makefile) execute(command ...string) {
 	}
 }
 
-func (m *makefile) Build() {
+func (m *Makefile) Build() {
 	defer m.Close()
 
 	s := spinner.New(spinner.CharSets[11], 100*time.Millisecond)

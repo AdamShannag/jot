@@ -1,4 +1,4 @@
-package service
+package feature
 
 import (
 	"fmt"
@@ -8,11 +8,12 @@ import (
 	"github.com/AdamShannag/jot/internal/command/path"
 	"github.com/AdamShannag/jot/internal/command/suffix"
 	"github.com/AdamShannag/jot/internal/io"
+	"github.com/AdamShannag/jot/internal/makefile"
 	"github.com/AdamShannag/jot/internal/types"
 	"github.com/spf13/afero"
 )
 
-func Test_New(t *testing.T) {
+func Test_BuildREST(t *testing.T) {
 	appFs := io.SwitchToMemMap()
 
 	endpoints := []string{"users", "posts"}
@@ -21,8 +22,28 @@ func Test_New(t *testing.T) {
 	newServiceName := "user-service"
 
 	s := types.NewSpecs("test", services, nil)
+	mk := makefile.New(path.Path(path.GoModPath, newServiceName), 10)
 
-	New(newServiceName, true, endpoints, s, 8082)
+	feat := feature{
+		Endpoint: endpoint{
+			rest: &restAPI{
+				rest: true,
+				crud: false,
+			},
+			grpc: false,
+		},
+		Middleware: middleware{
+			jwt:  false,
+			rbac: false,
+		},
+		specs:     s,
+		mk:        mk,
+		service:   newServiceName,
+		port:      8082,
+		endpoints: endpoints,
+	}
+
+	feat.BuildREST()
 
 	paths := []string{
 		fullPath(path.DockerImagePath, newServiceName, suffix.DockerfileSuffix(newServiceName)),

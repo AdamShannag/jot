@@ -4,17 +4,14 @@ import "testing"
 
 func Test_ServiceSuffix(t *testing.T) {
 	expected := "user-service"
-	actual := "user"
-
-	ServiceSuffix(&actual)
+	actual := ServiceSuffix("user")
 
 	if actual != expected {
 		t.Errorf("Expected %s, got %s", expected, actual)
 	}
 
-	actual = "user-service"
+	actual = ServiceSuffix("user-service")
 
-	ServiceSuffix(&actual)
 	if actual != expected {
 		t.Errorf("Expected %s, got %s", expected, actual)
 	}

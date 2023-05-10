@@ -3,11 +3,9 @@ package command
 import (
 	"errors"
 
-	"github.com/AdamShannag/jot/internal/command/endpoint"
-	"github.com/AdamShannag/jot/internal/command/module"
+	"github.com/AdamShannag/jot/internal/command/feature"
 	"github.com/AdamShannag/jot/internal/command/new"
 	p "github.com/AdamShannag/jot/internal/command/path"
-	srv "github.com/AdamShannag/jot/internal/command/service"
 	"github.com/AdamShannag/jot/internal/command/suffix"
 	"github.com/AdamShannag/jot/internal/io"
 	"github.com/AdamShannag/jot/internal/makefile"
@@ -30,58 +28,24 @@ func add() *cli.Command {
 			new.BoolFlag("rest", false, "make a rest api", false, "rs"),
 		},
 		func(cCtx *cli.Context) error {
-			// check if we have jot.yaml file
-			ok, err := io.FileExists(p.JotRelPath + p.JotFile)
-			if err != nil {
-				return err
-			}
-			if !ok {
-				return errors.New(p.JotFile + " file not found in current working directory")
-			}
 
-			// convert jot.yaml to Specs
-			specs, err := io.ToSpecs(p.JotRelPath + p.JotFile)
+			specs, err := getSpecs()
 			if err != nil {
 				return err
 			}
 
-			// read all flags
-			isRest := cCtx.Bool("rest")
-			port := cCtx.Int("port")
-			endpoints := cCtx.StringSlice("endpoints")
-			service := cCtx.String("service")
-
-			_service := service
-			suffix.ServiceSuffix(&_service)
-
-			mk := makefile.New(p.Path(p.GoModPath, _service), 10)
+			mk := makefile.New(p.Path(p.GoModPath, suffix.ServiceSuffix(cCtx.String("service"))), 10)
 			defer mk.Build()
 
-			// endpoints specified but rest flag is off
-			if !isRest && len(endpoints) > 0 {
-				return errors.New("--endpoints flag is specified but --rest flag is not")
+			feat := feature.New(specs, mk, cCtx)
+			if err := feat.BuildREST(); err != nil {
+				return err
+			}
+			if err := feat.BuildGRPC(); err != nil {
+				return err
 			}
 
-			// check if new service or not
-			if ok, i := types.IsExistingService(specs.Services, service); ok {
-				endpoint.UpdateAll(endpoints, specs, i, service)
-			} else {
-				mk.InitMod(_service)
-				if isRest {
-					mk.GetGoModules(module.GoChi, module.GoChiCors, module.GoChiMiddleware)
-				}
-				srv.New(service, isRest, endpoints, specs, port)
-			}
-
-			// go tidy
-			mk.GoTidy()
-			// go fmt
-			mk.GoFmt()
-
-			// write new specs to jot.yaml file
-			if b, err := types.ToYamlString(specs); err == nil {
-				io.ToFile(p.JotRelPath, p.JotFile, b)
-			} else {
+			if err := updateSpecs(specs); err != nil {
 				return err
 			}
 
@@ -90,4 +54,31 @@ func add() *cli.Command {
 		onUsageError,
 	)
 	return cmd
+}
+
+func getSpecs() (*types.Specs, error) {
+	ok, err := io.FileExists(p.JotRelPath + p.JotFile)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, errors.New(p.JotFile + " file not found in current working directory")
+	}
+
+	specs, err := io.ToSpecs(p.JotRelPath + p.JotFile)
+	if err != nil {
+		return nil, err
+	}
+
+	return specs, nil
+}
+
+func updateSpecs(specs *types.Specs) error {
+	if b, err := types.ToYamlString(specs); err == nil {
+		io.ToFile(p.JotRelPath, p.JotFile, b)
+	} else {
+		return err
+	}
+
+	return nil
 }
