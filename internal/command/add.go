@@ -26,6 +26,7 @@ func add() *cli.Command {
 			new.StringSliceFlag("endpoints", "", "create enpoints", false, "end"),
 			new.IntFlag("port", 0, "specifies the port of the service", true, "p"),
 			new.BoolFlag("rest", false, "make a rest api", false, "rs"),
+			new.BoolFlag("crud", false, "make a crud file", false, "c"),
 		},
 		func(cCtx *cli.Context) error {
 

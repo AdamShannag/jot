@@ -13,28 +13,28 @@ import (
 	"github.com/AdamShannag/jot/internal/types/tpls"
 )
 
-func NewRestService(specs *types.Specs, mk *makefile.Makefile, service *types.Service, withCrud bool) {
+func NewRestServiceWithCrud(specs *types.Specs, mk *makefile.Makefile, service *types.Service) {
 	mk.InitMod(s.ServiceSuffix(service.Name))
 	mk.GetGoModules(module.GoChi, module.GoChiCors, module.GoChiMiddleware)
 
-	createRESTService(service.Name)
+	createCrudService(service.Name)
 	createDockerFile(service.Name)
 	if len(service.Endpoints) > 0 {
-		endpoint.CreateAll(service.Name, service.Endpoints, withCrud)
+		endpoint.CreateAll(service.Name, service.Endpoints, true)
 	}
 
 	// update specs file
 	specs.Services = append(specs.Services, *service)
 }
 
-func createRESTService(name string) {
+func createCrudService(name string) {
 	createDirectories(name)
-	createRest(s.ServiceSuffix(name))
+	createCrud(s.ServiceSuffix(name))
 
 	log.Info("Service", log.CREATED)
 }
 
-func createRest(service string) {
+func createCrud(service string) {
 	// fill in api data
 	apiData := tpls.Api{}
 	apiData.AddModules(module.GoChi, module.GoChiCors, module.GoChiMiddleware)

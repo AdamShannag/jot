@@ -17,15 +17,15 @@ func newRestApi(isRest, isCrud bool) *restAPI {
 }
 
 func (r *restAPI) Build(specs *types.Specs, mk *makefile.Makefile, service string, port int, endpoints []string) error {
-	if !r.rest && len(endpoints) > 0 {
-		return errors.New("--endpoints flag is specified but --rest flag is not")
+	if err := restFlagsCheck(r, endpoints); err != nil {
+		return err
 	}
 
 	if ok, i := types.IsExistingService(specs.Services, service); ok {
-		e.UpdateAll(endpoints, specs, i, service)
+		e.UpdateAll(endpoints, specs, i, service, r.crud)
 	} else {
 		if r.rest {
-			srv.NewRestService(specs, mk, &types.Service{Name: service, Port: port, Endpoints: endpoints})
+			srv.NewRestService(specs, mk, &types.Service{Name: service, Port: port, Endpoints: endpoints}, r.crud)
 		} else {
 			srv.NewService(specs, mk, &types.Service{Name: service, Port: port, Endpoints: endpoints})
 		}
@@ -34,5 +34,15 @@ func (r *restAPI) Build(specs *types.Specs, mk *makefile.Makefile, service strin
 	mk.GoTidy()
 	mk.GoFmt()
 
+	return nil
+}
+
+func restFlagsCheck(r *restAPI, endpoints []string) error {
+	if !r.rest && len(endpoints) > 0 {
+		return errors.New("--endpoints flag is specified but --rest flag is not")
+	}
+	if !r.rest && r.crud {
+		return errors.New("--crud flag is specified but --rest flag is not")
+	}
 	return nil
 }

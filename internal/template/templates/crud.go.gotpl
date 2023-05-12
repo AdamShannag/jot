@@ -1,0 +1,31 @@
+package {{.PackageName}}
+
+import (
+	{{ range .Imports }}"{{ . }}"
+	{{ end }}
+)
+
+// Index handle GET /.
+func (h {{.EndpointName}}) Index(w http.ResponseWriter, r *http.Request) {
+	// TODO implement method
+}
+
+// Show handle GET /.
+func (h {{.EndpointName}}) Show(w http.ResponseWriter, r *http.Request) {
+	// TODO implement method
+}
+
+// Create handle POST /
+func (h {{.EndpointName}}) Create(w http.ResponseWriter, r *http.Request) {
+	// TODO implement method
+}
+
+// Update handle PUT /
+func (h {{.EndpointName}}) Update(w http.ResponseWriter, r *http.Request) {
+	// TODO implement method
+}
+
+// Destroy handle DELETE /
+func (h {{.EndpointName}}) Destroy(w http.ResponseWriter, r *http.Request) {
+	// TODO implement method
+}
