@@ -2,6 +2,7 @@ package endpoint
 
 import (
 	"fmt"
+	"github.com/AdamShannag/jot/internal/io"
 
 	"github.com/AdamShannag/jot/internal/command/log"
 	"github.com/AdamShannag/jot/internal/command/module"
@@ -21,6 +22,9 @@ func UpdateAll(endpoints []string, specs *types.Specs, i int, service string, wi
 			New(service, ep, withCrud)
 			newEps = append(newEps, ep)
 		} else {
+			if withCrud && !existCrudFile(service, ep) {
+				newCrud(service, ep)
+			}
 			log.Info("Endpoint", log.IGNORED)
 		}
 	}
@@ -62,4 +66,9 @@ func newCrud(service string, endpoint string) {
 
 	// create crud files
 	template.Create(p.CrudTpl, fmt.Sprintf(p.CrudPath, s.ServiceSuffix(service), endpoint), p.CrudFileName, handlerData)
+}
+
+func existCrudFile(service string, ep string) bool {
+	exists, _ := io.FileExists(fmt.Sprintf(p.CrudPath+p.CrudFileName, s.ServiceSuffix(service), ep))
+	return exists
 }

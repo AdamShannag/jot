@@ -109,6 +109,81 @@ func Test_BuildRESTWithCrud(t *testing.T) {
 	}
 }
 
+func Test_AddCrudFile_WhenUpdateREST(t *testing.T) {
+	appFs := io.SwitchToMemMap()
+
+	endpoints := []string{"users"}
+	services := []types.Service{}
+
+	newServiceName := "user-service"
+
+	s := types.NewSpecs("test", services, nil)
+	mk := makefile.New(path.Path(path.GoModPath, newServiceName), 10)
+
+	feat := feature{
+		Endpoint: endpoint{
+			rest: &restAPI{
+				rest: true,
+				crud: true,
+			},
+			grpc: false,
+		},
+		Middleware: middleware{
+			jwt:  false,
+			rbac: false,
+		},
+		specs:     s,
+		mk:        mk,
+		service:   newServiceName,
+		port:      8082,
+		endpoints: endpoints,
+	}
+
+	feat.BuildREST()
+
+	paths := []string{
+		fmt.Sprintf(path.HandlerPath, newServiceName, endpoints[0]),
+	}
+
+	for _, path := range paths {
+		fileExists(t, &appFs, path)
+	}
+
+	feat.Endpoint.rest.crud = false
+	feat.endpoints = append(feat.endpoints, "posts")
+
+	feat.BuildREST()
+
+	paths = []string{
+		fmt.Sprintf(path.HandlerPath, newServiceName, feat.endpoints[0]),
+		fmt.Sprintf(path.HandlerPath, newServiceName, feat.endpoints[1]),
+		fullPath2(path.CrudPath, newServiceName, feat.endpoints[0], path.CrudFileName),
+	}
+
+	for _, path := range paths {
+		fileExists(t, &appFs, path)
+	}
+
+	feat.Endpoint.rest.crud = true
+	feat.endpoints = append(feat.endpoints, "comments")
+
+	feat.BuildREST()
+
+	paths = []string{
+		fmt.Sprintf(path.HandlerPath, newServiceName, feat.endpoints[0]),
+		fmt.Sprintf(path.HandlerPath, newServiceName, feat.endpoints[1]),
+		fmt.Sprintf(path.HandlerPath, newServiceName, feat.endpoints[2]),
+		fullPath2(path.CrudPath, newServiceName, feat.endpoints[0], path.CrudFileName),
+		fullPath2(path.CrudPath, newServiceName, feat.endpoints[1], path.CrudFileName),
+		fullPath2(path.CrudPath, newServiceName, feat.endpoints[2], path.CrudFileName),
+	}
+
+	for _, path := range paths {
+		fileExists(t, &appFs, path)
+	}
+
+}
+
 func fileExists(t *testing.T, appFs *afero.Fs, path string) {
 	if ok, err := afero.Exists(*appFs, path); err != nil {
 		log.Panic(err)
