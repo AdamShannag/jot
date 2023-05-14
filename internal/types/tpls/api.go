@@ -1,7 +1,8 @@
 package tpls
 
 type Api struct {
-	Imports []string
+	Handlers []Handler
+	Imports  []string
 }
 
 func (a *Api) AddModules(names ...string) {

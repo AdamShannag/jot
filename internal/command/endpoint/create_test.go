@@ -19,7 +19,7 @@ func Test_CreateAll(t *testing.T) {
 
 	newServiceName := "user-service"
 
-	CreateAll(newServiceName, endpoints)
+	CreateAll(newServiceName, endpoints, false)
 
 	paths := []string{
 		fmt.Sprintf(path.HandlerPath, newServiceName, endpoints[0]),
@@ -45,7 +45,7 @@ func Test_UpdateAll(t *testing.T) {
 	s := types.NewSpecs("test", services, nil)
 
 	endpoints = append(endpoints, "posts")
-	UpdateAll(endpoints, s, 0, newServiceName)
+	UpdateAll(endpoints, s, 0, newServiceName, false)
 
 	paths := []string{
 		fmt.Sprintf(path.HandlerPath, newServiceName, endpoints[1]),

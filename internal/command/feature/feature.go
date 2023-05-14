@@ -9,7 +9,7 @@ import (
 func New(specs *types.Specs, mk *makefile.Makefile, cCtx *cli.Context) *feature {
 	return &feature{
 		Endpoint: endpoint{
-			rest: newRestApi(cCtx.Bool("rest"), false),
+			rest: newRestApi(cCtx.Bool("rest"), cCtx.Bool("crud")),
 			grpc: false,
 		},
 		Middleware: middleware{

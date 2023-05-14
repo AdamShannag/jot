@@ -32,6 +32,11 @@ const (
 	// handlers.go
 	HandlerTpl  = "handler.go.gotpl"
 	HandlerPath = "./%s/api/handler/%s/"
+
+	// crud.go
+	CrudTpl      = "crud.go.gotpl"
+	CrudPath     = "./%s/api/handler/%s/"
+	CrudFileName = "crud.go"
 )
 
 func Path(format string, arg string) string {

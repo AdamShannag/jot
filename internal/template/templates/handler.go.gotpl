@@ -16,25 +16,15 @@ func New{{.EndpointName}} (extras ...any) {{.EndpointName}} {
         // initialize extra members here, such as your repo or client
 	}
 
-    // add rest endpoints 
+{{ if .Crud }}
 	h.Get("/", h.Index)
+	h.Get("/{id}", h.Show)
 	h.Post("/", h.Create)
-	h.Delete("/", h.Clear)
+	h.Put("/{id}", h.Update)
+	h.Delete("/{id}", h.Destroy)
+{{ else }}
+    // add rest endpoints
+{{ end }}
 
 	return h
-}
-
-// Index handle GET /.
-func (h {{.EndpointName}}) Index(w http.ResponseWriter, r *http.Request) {
-	// TODO implement method
-}
-
-// Create handle POST /
-func (h {{.EndpointName}}) Create(w http.ResponseWriter, r *http.Request) {
-	// TODO implement method
-}
-
-// Clear handle DELETE /
-func (h {{.EndpointName}}) Clear(w http.ResponseWriter, r *http.Request) {
-	// TODO implement method
 }
