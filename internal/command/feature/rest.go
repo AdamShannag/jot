@@ -17,7 +17,7 @@ func newRestApi(isRest, isCrud bool) *restAPI {
 }
 
 func (r *restAPI) Build(specs *types.Specs, mk *makefile.Makefile, service string, port int, endpoints []string) error {
-	if err := restFlagsCheck(r, endpoints); err != nil {
+	if err := isRest(r, endpoints); err != nil {
 		return err
 	}
 
@@ -37,7 +37,7 @@ func (r *restAPI) Build(specs *types.Specs, mk *makefile.Makefile, service strin
 	return nil
 }
 
-func restFlagsCheck(r *restAPI, endpoints []string) error {
+func isRest(r *restAPI, endpoints []string) error {
 	if !r.rest && len(endpoints) > 0 {
 		return errors.New("--endpoints flag is specified but --rest flag is not")
 	}

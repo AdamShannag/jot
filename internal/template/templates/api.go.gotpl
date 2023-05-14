@@ -25,7 +25,8 @@ func NewMux() *chi.Mux {
 	mux.Use(middleware.RealIP)
 	mux.Use(middleware.Recoverer)
 
-	// mount handlers here
+    {{ range .Handlers }}mux.Mount("/{{ .PackageName }}", {{ .PackageName }}.New{{ .EndpointName }}())
+    {{ end }}
 
 	return mux
 }
