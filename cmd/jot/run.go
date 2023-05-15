@@ -6,6 +6,7 @@ import (
 
 	"github.com/AdamShannag/jot/internal/box"
 	"github.com/AdamShannag/jot/internal/command"
+	"github.com/AdamShannag/jot/internal/config"
 	"github.com/fatih/color"
 	"github.com/urfave/cli/v2"
 )
@@ -13,7 +14,7 @@ import (
 func run(args []string) {
 	app := &cli.App{
 		Name:     "jot",
-		Version:  VERSION,
+		Version:  config.VERSION,
 		Compiled: time.Now(),
 		Authors: []*cli.Author{
 			{

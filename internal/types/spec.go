@@ -5,6 +5,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/AdamShannag/jot/internal/config"
 	yml "gopkg.in/yaml.v3"
 )
 
@@ -19,7 +20,7 @@ type Specs struct {
 
 func NewSpecs(name string, services []Service, databases []Service) *Specs {
 	specs := Specs{}
-	specs.Version = "v1.0.0"
+	specs.Version = config.VERSION
 	specs.Project.Name = name
 	specs.Project.Created_at = NewDate()
 	specs.Services = services
