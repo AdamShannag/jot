@@ -138,7 +138,7 @@ func TestPath(t *testing.T) {
 		{
 			name: "invalid path 6",
 			args: args{
-				path: "/system//user",
+				path: "/sys/tem//user",
 			},
 			wantErr: true,
 		},
