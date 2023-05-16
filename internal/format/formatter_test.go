@@ -1,4 +1,4 @@
-package utils
+package format
 
 import "testing"
 
@@ -33,10 +33,9 @@ func TestDefaultFormatter_FormatName(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			de := &DefaultFormatter{}
-			de.FormatName(&tt.args.name)
-			if tt.args.name != tt.want {
-				t.Errorf("FormatName() got = %v, want %v", tt.args.name, tt.want)
+			got := ProjectName(tt.args.name)
+			if got != tt.want {
+				t.Errorf("ProjectName() got = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -130,10 +129,9 @@ func TestDefaultFormatter_FormatPath(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			de := &DefaultFormatter{}
-			de.FormatPath(&tt.args.path)
-			if tt.args.path != tt.want {
-				t.Errorf("FormatPath() got = %v, want %v", tt.args.path, tt.want)
+			got := Path(tt.args.path)
+			if got != tt.want {
+				t.Errorf("Path() got = %v, want %v", got, tt.want)
 			}
 		})
 	}

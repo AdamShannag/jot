@@ -19,12 +19,12 @@ func Test_Run_jot_init(t *testing.T) {
 	runWith("init", ".", "test")
 
 	// test directories and jot.yaml exists
-	checkFileOrDir(t, &appFs, "./test/")
-	checkFileOrDir(t, &appFs, "./test/jot.yaml")
+	checkFileOrDir(t, &appFs, "./")
+	checkFileOrDir(t, &appFs, "./jot.yaml")
 
 	// check file content
 	expectedSpecs := types.NewSpecs("test", nil, nil)
-	actualSpecs, err := f.ToSpecs("./test/jot.yaml")
+	actualSpecs, err := f.ToSpecs("./jot.yaml")
 	if err != nil {
 		t.Error(err)
 	}
