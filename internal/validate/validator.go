@@ -9,7 +9,7 @@ import (
 func Path(path string) error {
 	pattern, _ := regexp.Compile(`^\.{0,2}/((\w/?)|(\.{2}/))*$`)
 	if !strings.HasSuffix(path, "/") || !pattern.MatchString(path) {
-		return errors.New("invalid path project")
+		return errors.New("invalid project path")
 	}
 	return nil
 }
@@ -17,7 +17,7 @@ func Path(path string) error {
 func Name(name string) error {
 	pattern, _ := regexp.Compile(`^(\w-?)+$`)
 	if !pattern.MatchString(name) {
-		return errors.New("invalid name project")
+		return errors.New("invalid project name")
 	}
 	return nil
 }
