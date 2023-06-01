@@ -16,10 +16,10 @@ func Info(source string, action int) {
 	sr := color.CyanString(source)
 	switch action {
 	case CREATED:
-		fmt.Printf("[%s] %s\n", sr, color.GreenString("Created!"))
+		fmt.Printf("%s %s\n", color.GreenString("CREATE"), sr)
 	case IGNORED:
-		fmt.Printf("[%s] %s\n", sr, color.YellowString("Ignored!"))
+		fmt.Printf("%s %s\n", color.YellowString("IGNORE"), sr)
 	case FAILED:
-		fmt.Printf("[%s] %s\n", sr, color.RedString("Failed!"))
+		fmt.Printf("%s %s\n", color.RedString("FAIL"), sr)
 	}
 }
