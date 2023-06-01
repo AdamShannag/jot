@@ -24,13 +24,13 @@ func Test_Info(t *testing.T) {
 
 	os.Stdout = stdOut
 
-	if !strings.Contains(output, "[Test] Created!") {
-		t.Errorf("Expected to find [Test] Cerated!, but it is not there")
+	if !strings.Contains(output, "CREATE Test") {
+		t.Errorf("Expected to find Create Test, but it is not there")
 	}
-	if !strings.Contains(output, "[Test] Ignored!") {
-		t.Errorf("Expected to find [Test] Ignored, but it is not there")
+	if !strings.Contains(output, "IGNORE Test") {
+		t.Errorf("Expected to find IGNORE Test, but it is not there")
 	}
-	if !strings.Contains(output, "[Test] Failed!") {
-		t.Errorf("Expected to find [Test] Failed!, but it is not there")
+	if !strings.Contains(output, "FAIL Test") {
+		t.Errorf("Expected to find FAIL Test, but it is not there")
 	}
 }

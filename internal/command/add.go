@@ -35,7 +35,7 @@ func add() *cli.Command {
 				return err
 			}
 
-			mk := makefile.New(p.Path(p.GoModPath, suffix.ServiceSuffix(cCtx.String("service"))), 10)
+			mk := makefile.New(p.Path(p.GoModPath, suffix.ServiceSuffix(cCtx.String("service"))), 30)
 			defer mk.Build()
 
 			feat := feature.New(specs, mk, cCtx)

@@ -24,7 +24,7 @@ type output struct {
 }
 
 const (
-	fname = "Makefile"
+	fname = "Makefile.jot"
 	path  = "util.makefile.gotpl"
 
 	initmod = "initmod"
@@ -71,7 +71,7 @@ func (m *Makefile) Close() {
 }
 
 func (m *Makefile) execute(command ...string) {
-	cms := []string{"-C", m.servicePath}
+	cms := []string{"-f", fname, "-C", m.servicePath}
 	cms = append(cms, command...)
 
 	go func() {
