@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/AdamShannag/jot/internal/command/log"
 	p "github.com/AdamShannag/jot/internal/command/path"
 	s "github.com/AdamShannag/jot/internal/command/suffix"
 	"github.com/AdamShannag/jot/internal/io"
@@ -25,8 +24,6 @@ func NewService(specs *types.Specs, mk *makefile.Makefile, service *types.Servic
 
 func createService(name string) {
 	createDirectories(name)
-
-	log.Info("Service", log.CREATED)
 }
 
 func createDirectories(service string) {

@@ -2,8 +2,8 @@ package service
 
 import (
 	"fmt"
+
 	"github.com/AdamShannag/jot/internal/command/endpoint"
-	"github.com/AdamShannag/jot/internal/command/log"
 	"github.com/AdamShannag/jot/internal/command/module"
 	p "github.com/AdamShannag/jot/internal/command/path"
 	s "github.com/AdamShannag/jot/internal/command/suffix"
@@ -31,8 +31,6 @@ func NewRestService(specs *types.Specs, mk *makefile.Makefile, service *types.Se
 func createRESTService(service *types.Service) {
 	createDirectories(service.Name)
 	createRest(service)
-
-	log.Info("Service", log.CREATED)
 }
 
 func createRest(service *types.Service) {
