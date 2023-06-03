@@ -2,6 +2,7 @@ package endpoint
 
 import (
 	"fmt"
+
 	"github.com/AdamShannag/jot/internal/io"
 
 	"github.com/AdamShannag/jot/internal/command/log"
@@ -25,7 +26,7 @@ func UpdateAll(endpoints []string, specs *types.Specs, i int, service string, wi
 			if withCrud && !existCrudFile(service, ep) {
 				newCrud(service, ep)
 			}
-			log.Info("Endpoint", log.IGNORED)
+			log.Info(ep, log.IGNORED)
 		}
 	}
 

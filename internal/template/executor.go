@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"text/template"
 
+	"github.com/AdamShannag/jot/internal/command/log"
 	"github.com/AdamShannag/jot/internal/io"
-	"github.com/fatih/color"
 )
 
 var (
@@ -23,5 +23,5 @@ func Create(tplfile, path, filename string, data any) {
 		filename,
 		data,
 	)
-	fmt.Printf("%s %s\n", color.CyanString("[%s]", filename), color.GreenString("Created!"))
+	log.Info(fmt.Sprintf("%s%s", path, filename), log.CREATED)
 }

@@ -6,8 +6,8 @@ import (
 
 	"github.com/AdamShannag/jot/internal/box"
 	"github.com/AdamShannag/jot/internal/command"
+	"github.com/AdamShannag/jot/internal/command/log"
 	"github.com/AdamShannag/jot/internal/config"
-	"github.com/fatih/color"
 	"github.com/urfave/cli/v2"
 )
 
@@ -38,7 +38,7 @@ func run(args []string) {
 	}
 
 	if err := app.Run(args); err != nil {
-		color.Red(err.Error())
+		log.Info(err.Error(), log.FAILED)
 		os.Exit(1)
 	}
 }
