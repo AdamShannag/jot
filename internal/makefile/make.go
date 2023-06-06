@@ -7,8 +7,9 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/AdamShannag/jot/internal/cleanup"
 	"github.com/AdamShannag/jot/internal/io"
-	"github.com/briandowns/spinner"
+	"github.com/AdamShannag/jot/internal/spinner"
 )
 
 type Makefile struct {
@@ -17,6 +18,7 @@ type Makefile struct {
 	commands    []string
 	out         chan output
 	timeout     time.Duration
+	spinner     *spinner.CustomSpinner
 }
 
 type output struct {
@@ -39,12 +41,13 @@ var (
 	tmpl      = template.Must(template.ParseFS(resources, "files/*"))
 )
 
-func New(servicePath string, timeout time.Duration) *Makefile {
+func New(servicePath string, timeout time.Duration, spinner *spinner.CustomSpinner) *Makefile {
 	return &Makefile{
 		servicePath: servicePath,
 		data:        make(map[string]any),
 		out:         make(chan output),
 		timeout:     timeout,
+		spinner:     spinner,
 	}
 }
 
@@ -67,6 +70,12 @@ func (m *Makefile) GoFmt() {
 }
 
 func (m *Makefile) Close() {
+	cleanup.Add(func() error {
+		m.spinner.Suffix(fmt.Sprintf("%s %s...", "Removing", fname)).Start()
+		defer m.spinner.Stop()
+		io.RemoveFile(m.servicePath + fname)
+		return nil
+	})
 	close(m.out)
 }
 
@@ -91,17 +100,14 @@ func (m *Makefile) execute(command ...string) {
 }
 
 func (m *Makefile) Build() {
+	m.spinner.Start()
+
+	defer m.spinner.Stop()
 	defer m.Close()
-
-	s := spinner.New(spinner.CharSets[11], 100*time.Millisecond)
-	s.Suffix = " Jotting..."
-	s.Color("cyan")
-
-	s.Start()
-	defer s.Stop()
 
 	io.TplToFile(tmpl, path, m.servicePath, fname, m.data)
 	for _, cmd := range m.commands {
+		m.spinner.Suffix(fmt.Sprintf("%s: %s...", "Running", cmd))
 		m.execute(cmd)
 	}
 	m.data = make(map[string]any)
