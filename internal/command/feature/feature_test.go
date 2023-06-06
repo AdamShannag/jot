@@ -9,6 +9,7 @@ import (
 	"github.com/AdamShannag/jot/internal/command/suffix"
 	"github.com/AdamShannag/jot/internal/io"
 	"github.com/AdamShannag/jot/internal/makefile"
+	"github.com/AdamShannag/jot/internal/spinner"
 	"github.com/AdamShannag/jot/internal/types"
 	"github.com/spf13/afero"
 )
@@ -22,7 +23,7 @@ func Test_BuildRESTWithoutCrud(t *testing.T) {
 	newServiceName := "user-service"
 
 	s := types.NewSpecs("test", services, nil)
-	mk := makefile.New(path.Path(path.GoModPath, newServiceName), 10)
+	mk := makefile.New(path.Path(path.GoModPath, newServiceName), 10, spinner.New("cyan"))
 
 	feat := feature{
 		Endpoint: endpoint{
@@ -69,7 +70,7 @@ func Test_BuildRESTWithCrud(t *testing.T) {
 	newServiceName := "user-service"
 
 	s := types.NewSpecs("test", services, nil)
-	mk := makefile.New(path.Path(path.GoModPath, newServiceName), 10)
+	mk := makefile.New(path.Path(path.GoModPath, newServiceName), 10, spinner.New("cyan"))
 
 	feat := feature{
 		Endpoint: endpoint{
@@ -118,7 +119,7 @@ func Test_AddCrudFile_WhenUpdateREST(t *testing.T) {
 	newServiceName := "user-service"
 
 	s := types.NewSpecs("test", services, nil)
-	mk := makefile.New(path.Path(path.GoModPath, newServiceName), 10)
+	mk := makefile.New(path.Path(path.GoModPath, newServiceName), 10, spinner.New("cyan"))
 
 	feat := feature{
 		Endpoint: endpoint{

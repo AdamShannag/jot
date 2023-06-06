@@ -7,8 +7,10 @@ import (
 	"github.com/AdamShannag/jot/internal/command/new"
 	p "github.com/AdamShannag/jot/internal/command/path"
 	"github.com/AdamShannag/jot/internal/command/suffix"
+	"github.com/AdamShannag/jot/internal/config"
 	"github.com/AdamShannag/jot/internal/io"
 	"github.com/AdamShannag/jot/internal/makefile"
+	"github.com/AdamShannag/jot/internal/spinner"
 	"github.com/AdamShannag/jot/internal/types"
 	"github.com/urfave/cli/v2"
 )
@@ -35,7 +37,7 @@ func add() *cli.Command {
 				return err
 			}
 
-			mk := makefile.New(p.Path(p.GoModPath, suffix.ServiceSuffix(cCtx.String("service"))), 30)
+			mk := makefile.New(p.Path(p.GoModPath, suffix.ServiceSuffix(cCtx.String("service"))), config.MAKEFILE_TIMEOUT, spinner.New("cyan"))
 			defer mk.Build()
 
 			feat := feature.New(specs, mk, cCtx)

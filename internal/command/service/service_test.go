@@ -9,6 +9,7 @@ import (
 	"github.com/AdamShannag/jot/internal/command/suffix"
 	"github.com/AdamShannag/jot/internal/io"
 	"github.com/AdamShannag/jot/internal/makefile"
+	"github.com/AdamShannag/jot/internal/spinner"
 	"github.com/AdamShannag/jot/internal/types"
 	"github.com/spf13/afero"
 )
@@ -22,7 +23,7 @@ func Test_NewService(t *testing.T) {
 	newServiceName := "user-service"
 
 	s := types.NewSpecs("test", services, nil)
-	mk := makefile.New(path.Path(path.GoModPath, newServiceName), 10)
+	mk := makefile.New(path.Path(path.GoModPath, newServiceName), 10, spinner.New("cyan"))
 
 	NewService(s, mk, &types.Service{Name: newServiceName, Port: 8082, Endpoints: endpoints})
 
@@ -45,7 +46,7 @@ func Test_NewRestService_WithoutCrudFile(t *testing.T) {
 	newServiceName := "user-service"
 
 	s := types.NewSpecs("test", services, nil)
-	mk := makefile.New(path.Path(path.GoModPath, newServiceName), 10)
+	mk := makefile.New(path.Path(path.GoModPath, newServiceName), 10, spinner.New("cyan"))
 
 	NewRestService(s, mk, &types.Service{Name: newServiceName, Port: 8082, Endpoints: endpoints}, false)
 
@@ -74,7 +75,7 @@ func Test_NewRestService_WithCrudFile(t *testing.T) {
 	newServiceName := "user-service"
 
 	s := types.NewSpecs("test", services, nil)
-	mk := makefile.New(path.Path(path.GoModPath, newServiceName), 10)
+	mk := makefile.New(path.Path(path.GoModPath, newServiceName), 10, spinner.New("cyan"))
 
 	NewRestService(s, mk, &types.Service{Name: newServiceName, Port: 8082, Endpoints: endpoints}, true)
 

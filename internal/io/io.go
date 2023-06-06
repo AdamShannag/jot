@@ -80,6 +80,7 @@ func TplToFile(tmpl *template.Template, tpl string, path string, name string, da
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer file.Close()
 	err = tmpl.ExecuteTemplate(file, tpl, data)
 	if err != nil {
 		log.Fatal(err)
