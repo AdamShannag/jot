@@ -26,6 +26,7 @@ func add() *cli.Command {
 		[]cli.Flag{
 			new.StringFlag("service", "", "creates a service", true, "srv"),
 			new.StringSliceFlag("endpoints", "", "create enpoints", false, "end"),
+			new.StringSliceFlag("middlewares", "", "create middlewares", false, "mid"),
 			new.IntFlag("port", 0, "specifies the port of the service", true, "p"),
 			new.BoolFlag("rest", false, "make a rest api", false, "rs"),
 			new.BoolFlag("crud", false, "make a crud file", false, "c"),
@@ -45,6 +46,9 @@ func add() *cli.Command {
 				return err
 			}
 			if err := feat.BuildGRPC(); err != nil {
+				return err
+			}
+			if err := feat.BuildMiddlewares(); err != nil {
 				return err
 			}
 

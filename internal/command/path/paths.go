@@ -8,12 +8,11 @@ const (
 	JotFile    = "jot.yaml"
 
 	// directories
-	ProjectDirPath    = "%s/%s/"
-	MainDirPath       = "./%s/cmd/%s/"
-	BinDirPath        = "./%s/bin/"
-	AppPath           = "../../bin/%s"
-	HandlerDirPath    = "./%s/api/handler/"
-	MiddelwareDirPath = "./%s/api/middleware/"
+	ProjectDirPath = "%s/%s/"
+	MainDirPath    = "./%s/cmd/%s/"
+	BinDirPath     = "./%s/bin/"
+	AppPath        = "../../bin/%s"
+	HandlerDirPath = "./%s/api/handler/"
 
 	// go.mod
 	GoModFileName = "go.mod"
@@ -32,6 +31,10 @@ const (
 	// handlers.go
 	HandlerTpl  = "handler.go.gotpl"
 	HandlerPath = "./%s/api/handler/%s/"
+
+	// middleware.go
+	DefaultMiddlewareDirPath = "./%s/api/middleware/"
+	DefaultMiddlewareTpl     = "default_middleware.go.gotpl"
 
 	// crud.go
 	CrudTpl      = "crud.go.gotpl"

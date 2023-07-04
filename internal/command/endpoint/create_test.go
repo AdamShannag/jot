@@ -62,7 +62,7 @@ func Test_UpdateAll(t *testing.T) {
 
 	newServiceName := "user-service"
 
-	services = append(services, *types.NewService(newServiceName, 8081, endpoints))
+	services = append(services, *types.NewService(newServiceName, 8081, endpoints, []string{}))
 
 	s := types.NewSpecs("test", services, nil)
 
@@ -87,7 +87,7 @@ func Test_AddCrudFile_WhenUpdateAll(t *testing.T) {
 
 	newServiceName := "user-service"
 
-	services = append(services, *types.NewService(newServiceName, 8081, endpoints))
+	services = append(services, *types.NewService(newServiceName, 8081, endpoints, []string{}))
 
 	s := types.NewSpecs("test", services, nil)
 
