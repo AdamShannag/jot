@@ -46,7 +46,7 @@ func createRest(service *types.Service) {
 
 	// create handlers and middelwares
 	io.ToDirs(p.Path(p.HandlerDirPath, serviceName))
-	io.ToDirs(p.Path(p.MiddelwareDirPath, serviceName))
+	io.ToDirs(p.Path(p.DefaultMiddlewareDirPath, serviceName))
 }
 
 func extractHandlers(service *types.Service) ([]tpls.Handler, []string) {

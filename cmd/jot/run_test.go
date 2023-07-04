@@ -45,7 +45,7 @@ func Test_Run_jot_add_service(t *testing.T) {
 	checkFileOrDir(t, &appFs, "./test-service/deploy/image/test-service.dockerfile")
 
 	// check jot.yaml file
-	expectedSpecs := types.NewSpecs("test", []types.Service{*types.NewService("test", 8080, nil)}, nil)
+	expectedSpecs := types.NewSpecs("test", []types.Service{*types.NewService("test", 8080, nil, nil)}, nil)
 	actualSpecs, err := f.ToSpecs("./jot.yaml")
 
 	if err != nil {
@@ -72,7 +72,7 @@ func Test_Run_jot_add_service_endpoint(t *testing.T) {
 	checkFileOrDir(t, &appFs, "./test-service/api/handler/users/users.go")
 
 	// check jot.yaml file
-	expectedSpecs := types.NewSpecs("test", []types.Service{*types.NewService("test", 8080, []string{"users"})}, nil)
+	expectedSpecs := types.NewSpecs("test", []types.Service{*types.NewService("test", 8080, []string{"users"}, nil)}, nil)
 	actualSpecs, err := f.ToSpecs("./jot.yaml")
 
 	if err != nil {

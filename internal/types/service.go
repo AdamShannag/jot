@@ -1,16 +1,18 @@
 package types
 
 type Service struct {
-	Name      string   `yaml:"name"`
-	Port      int      `yaml:"port"`
-	Endpoints []string `yaml:"endpoints"`
+	Name        string   `yaml:"name"`
+	Port        int      `yaml:"port"`
+	Endpoints   []string `yaml:"endpoints"`
+	Middlewares []string `yaml:"middlewares"`
 }
 
-func NewService(name string, port int, endpoints []string) *Service {
+func NewService(name string, port int, endpoints []string, middelwares []string) *Service {
 	return &Service{
-		Name:      name,
-		Port:      port,
-		Endpoints: endpoints,
+		Name:        name,
+		Port:        port,
+		Endpoints:   endpoints,
+		Middlewares: middelwares,
 	}
 }
 

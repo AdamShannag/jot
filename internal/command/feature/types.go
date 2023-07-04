@@ -7,7 +7,7 @@ import (
 
 type feature struct {
 	Endpoint   endpoint
-	Middleware middleware
+	Middleware *middleware
 	specs      *types.Specs
 	mk         *makefile.Makefile
 	service    string
@@ -26,6 +26,6 @@ type restAPI struct {
 }
 
 type middleware struct {
-	jwt  bool
-	rbac bool
+	middelwares []string
+	rest        bool
 }

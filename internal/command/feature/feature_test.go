@@ -33,15 +33,12 @@ func Test_BuildRESTWithoutCrud(t *testing.T) {
 			},
 			grpc: false,
 		},
-		Middleware: middleware{
-			jwt:  false,
-			rbac: false,
-		},
-		specs:     s,
-		mk:        mk,
-		service:   newServiceName,
-		port:      8082,
-		endpoints: endpoints,
+		Middleware: newMiddlewares([]string{"logger"}, true),
+		specs:      s,
+		mk:         mk,
+		service:    newServiceName,
+		port:       8082,
+		endpoints:  endpoints,
 	}
 
 	feat.BuildREST()
@@ -51,7 +48,7 @@ func Test_BuildRESTWithoutCrud(t *testing.T) {
 		fullPath(path.ApiDirPath, newServiceName, path.ApiFileName),
 		fullPath(path.BinDirPath, newServiceName, ""),
 		fullPath(path.HandlerDirPath, newServiceName, ""),
-		fullPath(path.MiddelwareDirPath, newServiceName, ""),
+		fullPath(path.DefaultMiddlewareDirPath, newServiceName, ""),
 		fmt.Sprintf(path.HandlerPath, newServiceName, endpoints[0]),
 		fmt.Sprintf(path.HandlerPath, newServiceName, endpoints[1]),
 	}
@@ -80,15 +77,12 @@ func Test_BuildRESTWithCrud(t *testing.T) {
 			},
 			grpc: false,
 		},
-		Middleware: middleware{
-			jwt:  false,
-			rbac: false,
-		},
-		specs:     s,
-		mk:        mk,
-		service:   newServiceName,
-		port:      8082,
-		endpoints: endpoints,
+		Middleware: newMiddlewares([]string{"logger"}, true),
+		specs:      s,
+		mk:         mk,
+		service:    newServiceName,
+		port:       8082,
+		endpoints:  endpoints,
 	}
 
 	feat.BuildREST()
@@ -98,7 +92,7 @@ func Test_BuildRESTWithCrud(t *testing.T) {
 		fullPath(path.ApiDirPath, newServiceName, path.ApiFileName),
 		fullPath(path.BinDirPath, newServiceName, ""),
 		fullPath(path.HandlerDirPath, newServiceName, ""),
-		fullPath(path.MiddelwareDirPath, newServiceName, ""),
+		fullPath(path.DefaultMiddlewareDirPath, newServiceName, ""),
 		fmt.Sprintf(path.HandlerPath, newServiceName, endpoints[0]),
 		fmt.Sprintf(path.HandlerPath, newServiceName, endpoints[1]),
 		fullPath2(path.CrudPath, newServiceName, endpoints[0], path.CrudFileName),
@@ -129,15 +123,12 @@ func Test_AddCrudFile_WhenUpdateREST(t *testing.T) {
 			},
 			grpc: false,
 		},
-		Middleware: middleware{
-			jwt:  false,
-			rbac: false,
-		},
-		specs:     s,
-		mk:        mk,
-		service:   newServiceName,
-		port:      8082,
-		endpoints: endpoints,
+		Middleware: newMiddlewares([]string{"logger"}, true),
+		specs:      s,
+		mk:         mk,
+		service:    newServiceName,
+		port:       8082,
+		endpoints:  endpoints,
 	}
 
 	feat.BuildREST()

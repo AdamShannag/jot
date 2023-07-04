@@ -12,15 +12,12 @@ func New(specs *types.Specs, mk *makefile.Makefile, cCtx *cli.Context) *feature 
 			rest: newRestApi(cCtx.Bool("rest"), cCtx.Bool("crud")),
 			grpc: false,
 		},
-		Middleware: middleware{
-			jwt:  false,
-			rbac: false,
-		},
-		specs:     specs,
-		mk:        mk,
-		service:   cCtx.String("service"),
-		port:      cCtx.Int("port"),
-		endpoints: cCtx.StringSlice("endpoints"),
+		Middleware: newMiddlewares(cCtx.StringSlice("middlewares"), cCtx.Bool("rest")),
+		specs:      specs,
+		mk:         mk,
+		service:    cCtx.String("service"),
+		port:       cCtx.Int("port"),
+		endpoints:  cCtx.StringSlice("endpoints"),
 	}
 }
 
@@ -30,4 +27,8 @@ func (f *feature) BuildREST() error {
 
 func (f *feature) BuildGRPC() error {
 	return nil
+}
+
+func (f *feature) BuildMiddlewares() error {
+	return f.Middleware.Build(f.specs, f.service, f.mk)
 }
