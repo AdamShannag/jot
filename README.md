@@ -1,5 +1,5 @@
 # Jot
-
+<img alt="jot" src="assets/jot.png" />
 Introducing a tool for effortlessly creating projects following the micro-services architecture. This tool streamlines project generation, offering modular components and automated dependency management. It simplifies the complexities of micro-services development, empowering the delivery of high-quality, scalable projects with ease.
 
 ## Installation
