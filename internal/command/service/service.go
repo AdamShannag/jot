@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/AdamShannag/jot/internal/command/module"
 	p "github.com/AdamShannag/jot/internal/command/path"
 	s "github.com/AdamShannag/jot/internal/command/suffix"
 	"github.com/AdamShannag/jot/internal/io"
@@ -15,6 +16,7 @@ import (
 
 func NewService(specs *types.Specs, mk *makefile.Makefile, service *types.Service) {
 	mk.InitMod(s.ServiceSuffix(service.Name))
+	mk.GetGoModules(module.Zerolog, module.ZerologXID, module.ZerologPkgerrors, module.Lumberjack)
 
 	createService(service.Name)
 	createDockerFile(service.Name)
@@ -24,6 +26,7 @@ func NewService(specs *types.Specs, mk *makefile.Makefile, service *types.Servic
 
 func createService(name string) {
 	createDirectories(name)
+	createZerologPkg(name)
 }
 
 func createDirectories(service string) {
@@ -31,6 +34,7 @@ func createDirectories(service string) {
 	io.ToDirs(fmt.Sprintf(p.MainDirPath, s.ServiceSuffix(service), service))
 	io.ToDirs(p.Path(p.BinDirPath, s.ServiceSuffix(service)))
 	io.ToDirs(p.Path(p.ApiDirPath, s.ServiceSuffix(service)))
+	io.ToDirs(p.Path(p.PkgDirPath, s.ServiceSuffix(service)))
 }
 
 func createDockerFile(service string) {
