@@ -17,6 +17,7 @@ import (
 func NewRestService(specs *types.Specs, mk *makefile.Makefile, service *types.Service, withCrud bool) {
 	mk.InitMod(s.ServiceSuffix(service.Name))
 	mk.GetGoModules(module.GoChi, module.GoChiCors, module.GoChiMiddleware)
+	mk.GetGoModules(module.Zerolog, module.ZerologXID, module.ZerologPkgerrors, module.Lumberjack)
 
 	createRESTService(service)
 	createDockerFile(service.Name)
@@ -30,6 +31,7 @@ func NewRestService(specs *types.Specs, mk *makefile.Makefile, service *types.Se
 
 func createRESTService(service *types.Service) {
 	createDirectories(service.Name)
+	createZerologPkg(service.Name)
 	createRest(service)
 }
 

@@ -40,6 +40,16 @@ const (
 	CrudTpl      = "crud.go.gotpl"
 	CrudPath     = "./%s/api/handler/%s/"
 	CrudFileName = "crud.go"
+
+	// pkg
+	PkgDirPath = "./%s/pkg/"
+
+	// pkg.logger.go
+	ZerologPkgname          = "logger"
+	ZerologMiddleware       = "request_logger"
+	ZerologPkgTpl           = "pkg_zerolog.go.gotpl"
+	ZerologMiddlewarePkgTpl = "zerolog_middleware.go.gotpl"
+	ZerologPkgPath          = "./%s/pkg/logger/"
 )
 
 func Path(format string, arg string) string {
