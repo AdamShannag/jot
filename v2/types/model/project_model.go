@@ -1,5 +1,6 @@
 package model
 
 type Project struct {
-	Name string
+	Name     string    `json:"name"`
+	Services []Service `json:"services"`
 }

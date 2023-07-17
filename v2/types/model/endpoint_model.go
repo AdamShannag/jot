@@ -1,5 +1,6 @@
 package model
 
 type Endpoint struct {
-	Name string
+	Name string `json:"name"`
+	Urls []Url  `json:"urls"`
 }

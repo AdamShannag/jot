@@ -1,5 +1,5 @@
 package model
 
 type Middleware struct {
-	Name string
+	Name string `json:"name"`
 }
