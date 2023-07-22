@@ -1,0 +1,7 @@
+FROM alpine:latest
+
+RUN mkdir /app
+
+COPY {{ .AppPath }} /app
+
+CMD ["/app/{{ .AppName }}"]

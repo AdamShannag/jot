@@ -1,0 +1,17 @@
+package {{.PackageName}}
+
+import (
+	"github.com/go-chi/chi/v5"
+)
+
+type {{.Name}} struct {
+	*chi.Mux
+}
+
+func New{{.Name}} (extras ...any) {{.Name}} {
+	h := {{.Name}}{
+		Mux:        chi.NewMux(),
+	}
+
+	return h
+}
