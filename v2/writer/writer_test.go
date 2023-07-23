@@ -14,6 +14,8 @@ import (
 	"github.com/AdamShannag/jot/v2/writer/util"
 )
 
+const testDir = "./test-data/"
+
 func TestWriter(t *testing.T) {
 	url := url.NewBuilder().Path("/test").Handler("Test").Method(http.MethodGet).Build()
 	endpoint := endpoint.NewBuilder().Name("test").Urls([]model.Url{url}).Build()
@@ -27,8 +29,10 @@ func TestWriter(t *testing.T) {
 
 	project := project.NewBuilder().Name("my-project").Services([]model.Service{service}).Build()
 
+	os.Mkdir(testDir, os.ModePerm)
+
 	w := NewWriter(&project)
-	w.Write(os.TempDir())
+	w.Write(testDir)
 
 	assertExists(t, "my-project")
 	assertExists(t, "my-project/service")
@@ -45,12 +49,12 @@ func TestWriter(t *testing.T) {
 	assertExists(t, "my-project/service/cmd/service")
 	assertExists(t, "my-project/service/cmd/service/main.go")
 
-	os.RemoveAll(os.TempDir() + project.Name)
+	os.RemoveAll(testDir)
 
 }
 
 func assertExists(t *testing.T, path string) {
-	if !util.IsExistingDirOrFile(os.TempDir() + path) {
+	if !util.IsExistingDirOrFile(testDir + path) {
 		t.Errorf("Expecting directory or file [%s] to exist but it does not", path)
 	}
 }
