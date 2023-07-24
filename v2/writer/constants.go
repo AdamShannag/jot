@@ -1,5 +1,10 @@
 package writer
 
+import (
+	d "github.com/AdamShannag/jot/v2/writer/directory"
+	f "github.com/AdamShannag/jot/v2/writer/file"
+)
+
 const (
 	API_DIR             string = "api"
 	API_ENDPOINTS_DIR   string = "endpoints"
@@ -7,27 +12,22 @@ const (
 	BIN_DIR             string = "bin"
 	CMD_DIR             string = "cmd"
 	DEPLOY_DIR          string = "deploy"
+	PKG_DIR             string = "pkg"
 )
 
-const (
-	API_FILE  = "api.go"
-	MAIN_FILE = "main.go"
-)
+func defaultServiceStructure() []*d.Directory {
+	dirs := []*d.Directory{}
 
-func serviceDFsMap() dirFilesMap {
-	return dirFilesMap{
-		API_DIR:    []File{{API_FILE, "", "", nil}},
-		BIN_DIR:    []File{},
-		CMD_DIR:    []File{},
-		DEPLOY_DIR: []File{},
+	dfMap := map[string][]f.File{
+		API_DIR:    {f.NewApiFile("api", nil)},
+		BIN_DIR:    {},
+		CMD_DIR:    {},
+		DEPLOY_DIR: {},
+		PKG_DIR:    {},
 	}
-}
 
-func serviceDFs() []*Dir {
-	dirs := []*Dir{}
-
-	for k, v := range serviceDFsMap() {
-		dirs = append(dirs, &Dir{Name: k, Files: v, Dirs: nil})
+	for k, v := range dfMap {
+		dirs = append(dirs, d.NewDefaultDirectory(k, nil, v...))
 	}
 
 	return dirs

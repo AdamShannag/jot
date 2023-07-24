@@ -2,9 +2,10 @@ package template
 
 import (
 	"embed"
+	"log"
 	"text/template"
 
-	"github.com/AdamShannag/jot/v2/writer/util"
+	"github.com/AdamShannag/jot/v2/writer/fs"
 )
 
 var (
@@ -14,5 +15,13 @@ var (
 )
 
 func Create(path, name, tpl string, data any) {
-	util.CreateFile(tmpl, path, name, tpl, data)
+	file, err := fs.Get().Create(path + name)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+	err = tmpl.ExecuteTemplate(file, tpl, data)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

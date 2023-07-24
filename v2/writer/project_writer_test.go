@@ -1,6 +1,7 @@
 package writer
 
 import (
+	"log"
 	"net/http"
 	"os"
 	"testing"
@@ -11,12 +12,13 @@ import (
 	"github.com/AdamShannag/jot/v2/api/project"
 	"github.com/AdamShannag/jot/v2/api/service"
 	"github.com/AdamShannag/jot/v2/types/model"
-	"github.com/AdamShannag/jot/v2/writer/util"
+	"github.com/AdamShannag/jot/v2/writer/fs"
+	"github.com/spf13/afero"
 )
 
 const testDir = "./test-data/"
 
-func TestWriter(t *testing.T) {
+func TestProjectWriter(t *testing.T) {
 	url := url.NewBuilder().Path("/test").Handler("Test").Method(http.MethodGet).Build()
 	endpoint := endpoint.NewBuilder().Name("test").Urls([]model.Url{url}).Build()
 	middleware := middleware.NewBuilder().Defualt("test").Build()
@@ -31,7 +33,7 @@ func TestWriter(t *testing.T) {
 
 	os.Mkdir(testDir, os.ModePerm)
 
-	w := NewWriter(&project)
+	w := NewProjectWriter(&project)
 	w.Write(testDir)
 
 	assertExists(t, "my-project")
@@ -54,7 +56,15 @@ func TestWriter(t *testing.T) {
 }
 
 func assertExists(t *testing.T, path string) {
-	if !util.IsExistingDirOrFile(testDir + path) {
+	if !existsAt(testDir + path) {
 		t.Errorf("Expecting directory or file [%s] to exist but it does not", path)
 	}
+}
+
+func existsAt(path string) bool {
+	ok, err := afero.Exists(fs.Get(), path)
+	if err != nil {
+		log.Fatalf("Error occured: %v", err)
+	}
+	return ok
 }
