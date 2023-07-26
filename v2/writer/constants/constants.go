@@ -1,4 +1,4 @@
-package writer
+package constants
 
 import (
 	d "github.com/AdamShannag/jot/v2/writer/directory"
@@ -15,7 +15,7 @@ const (
 	PKG_DIR             string = "pkg"
 )
 
-func defaultServiceStructure() []*d.Directory {
+func DefaultServiceStructure() []*d.Directory {
 	dirs := []*d.Directory{}
 
 	dfMap := map[string][]f.File{

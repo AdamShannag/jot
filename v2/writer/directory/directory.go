@@ -24,11 +24,7 @@ func NewDirectory(name string, directories []*Directory, files []file.File, writ
 }
 
 // Creates the directories with thier related files and directories at the specified path
-func (d *Directory) Create(path string) {
-	d.create(path)
-}
-
-func (d *Directory) create(p string) {
+func (d *Directory) Create(p string) {
 	path := fmt.Sprintf("%s%s/", p, d.Name)
 
 	d.writer.Write(path)
@@ -38,6 +34,31 @@ func (d *Directory) create(p string) {
 	}
 
 	for _, dr := range d.Directories {
-		dr.create(path)
+		dr.Create(path)
+	}
+}
+
+// Gets a directory by name, returns (nil, false) if not found
+func (d *Directory) Get(name string) (*Directory, bool) {
+	if d.Name == name {
+		return d, true
+	}
+
+	for _, dir := range d.Directories {
+		dr, ok := dir.Get(name)
+		if ok {
+			return dr, true
+		}
+	}
+
+	return nil, false
+}
+
+// Inserts a new directory at the given directory name, panics if directory name does not exist
+func (d *Directory) InsertAt(name string, dir *Directory) {
+	if d, ok := d.Get(name); ok {
+		d.Directories = append(d.Directories, dir)
+	} else {
+		panic("directory not found")
 	}
 }

@@ -33,7 +33,7 @@ func TestProjectWriter(t *testing.T) {
 
 	os.Mkdir(testDir, os.ModePerm)
 
-	w := NewProjectWriter(&project)
+	w := NewProjectWriter(project)
 	w.Write(testDir)
 
 	assertExists(t, "my-project")
