@@ -6,16 +6,16 @@ import (
 	"github.com/AdamShannag/jot/v2/types/model"
 )
 
-func Test_MiddlewareBuilder(t *testing.T) {
+func Test_MiddlewareBuilder_CUSTOM(t *testing.T) {
 	tests := []struct {
 		name           string
 		testMiddleware model.Middleware
 	}{
-		{"Building a middleware", model.Middleware{Name: "Test"}},
+		{"Building a custom middleware", model.Middleware{Name: "Test"}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			middleware := NewBuilder().Defualt("Test").Build()
+			middleware := NewBuilder().Name("Test").Build()
 
 			assertEquals[string](t, tt.testMiddleware.Name, middleware.Name, "middleware name")
 		})

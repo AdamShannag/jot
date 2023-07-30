@@ -1,0 +1,3 @@
+module {{ .ServiceName }}
+
+go 1.20

@@ -6,7 +6,7 @@ func NewBuilder() *Middleware {
 	return &Middleware{&actions{}}
 }
 
-func (b *Middleware) Defualt(name string) *Middleware {
+func (b *Middleware) Name(name string) *Middleware {
 	b.actions.modifications = append(b.actions.modifications, func(middleware *model.Middleware) {
 		middleware.Name = name
 	})

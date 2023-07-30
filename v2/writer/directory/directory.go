@@ -55,9 +55,9 @@ func (d *Directory) Get(name string) (*Directory, bool) {
 }
 
 // Inserts a new directory at the given directory name, panics if directory name does not exist
-func (d *Directory) InsertAt(name string, dir *Directory) {
+func (d *Directory) InsertAt(name string, dir ...*Directory) {
 	if d, ok := d.Get(name); ok {
-		d.Directories = append(d.Directories, dir)
+		d.Directories = append(d.Directories, dir...)
 	} else {
 		panic("directory not found")
 	}

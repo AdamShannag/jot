@@ -37,7 +37,7 @@ func Test_ServiceBuilder(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			url := url.NewBuilder().Path("/test").Handler("Test").Method(http.MethodGet).Build()
 			endpoint := endpoint.NewBuilder().Name("Test").Urls([]model.Url{url}).Build()
-			middleware := middleware.NewBuilder().Defualt("Test").Build()
+			middleware := middleware.NewBuilder().Name("Test").Build()
 
 			service := NewBuilder().Name("Test").
 				Port(9090).

@@ -44,7 +44,7 @@ func Test_InsertAt(t *testing.T) {
 	}
 }
 
-func assertPanic(t *testing.T, f func(string, *Directory), shouldPanic bool, insertAt string) {
+func assertPanic(t *testing.T, f func(string, ...*Directory), shouldPanic bool, insertAt string) {
 	didPanic := true
 	defer func() {
 		if r := recover(); r == nil {

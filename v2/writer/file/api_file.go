@@ -8,14 +8,13 @@ import (
 
 type ApiFile struct {
 	name string
-	data map[string]string
 	tpl  template.Template
 }
 
-func NewApiFile(name string, data map[string]string) *ApiFile {
-	return &ApiFile{name, data, template.API}
+func NewApiFile() *ApiFile {
+	return &ApiFile{"api", template.API}
 }
 
 func (f *ApiFile) Write(path string) {
-	template.Create(path, fmt.Sprintf("%s.go", f.name), string(f.tpl), f.data)
+	template.Create(path, fmt.Sprintf("%s.go", f.name), string(f.tpl), nil)
 }

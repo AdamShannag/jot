@@ -15,7 +15,7 @@ type MiddlewareFile struct {
 	tpl  template.Template
 }
 
-func NewDefaultMiddlewareFile(name string, data map[string]string) *MiddlewareFile {
+func NewMiddlewareFile(name string, data map[string]string) *MiddlewareFile {
 	if data == nil {
 		data = make(map[string]string)
 	}

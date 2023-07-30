@@ -32,11 +32,29 @@ func (pdc *projectDirectoryConstructor) services() []*d.Directory {
 
 // Creates a service directory with its releated directories
 func (pdc *projectDirectoryConstructor) service(srv *m.Service) *d.Directory {
-	sd := d.NewDefaultDirectory(srv.Name, c.DefaultServiceStructure())
+	sd := d.NewDefaultDirectory(srv.Name, nil, f.NewModFile(srv.Name))
 
-	sd.InsertAt(c.CMD_DIR, d.NewDefaultDirectory(srv.Name, nil, f.NewMainFile("main", nil)))
-	sd.InsertAt(c.API_DIR, pdc.endpoints(srv.Endpoints))
-	sd.InsertAt(c.API_DIR, pdc.middlewares(srv.Middlewares))
+	sd.InsertAt(sd.Name,
+		d.NewDefaultDirectory(c.API_DIR, nil, f.NewApiFile()),
+		d.NewDefaultDirectory(c.BIN_DIR, nil),
+		d.NewDefaultDirectory(c.CMD_DIR, nil),
+		d.NewDefaultDirectory(c.DEPLOY_DIR, nil),
+		d.NewDefaultDirectory(c.PKG_DIR, nil),
+	)
+
+	sd.InsertAt(c.API_DIR,
+		pdc.endpoints(srv.Endpoints),
+		pdc.middlewares(srv.Middlewares),
+	)
+
+	sd.InsertAt(c.CMD_DIR, d.NewDefaultDirectory(srv.Name, nil, f.NewMainFile()))
+
+	sd.InsertAt(c.PKG_DIR,
+		d.NewDefaultDirectory(c.LOGGER_DIR, nil,
+			f.NewLoggerFile(),
+			f.NewRequestLoggerFile(),
+		),
+	)
 
 	return sd
 }
@@ -57,7 +75,7 @@ func (pdc *projectDirectoryConstructor) middlewares(middlewares []m.Middleware) 
 	var md = d.NewDefaultDirectory(c.API_MIDDLEWARES_DIR, nil)
 
 	for _, middleware := range middlewares {
-		md.Directories = append(md.Directories, d.NewDefaultDirectory(middleware.Name, nil, f.NewDefaultMiddlewareFile(middleware.Name, nil)))
+		md.Directories = append(md.Directories, d.NewDefaultDirectory(middleware.Name, nil, f.NewMiddlewareFile(middleware.Name, nil)))
 	}
 
 	return md

@@ -6,15 +6,15 @@ import (
 	"github.com/AdamShannag/jot/v2/writer/template"
 )
 
-type MainFile struct {
+type LoggerFile struct {
 	name string
 	tpl  template.Template
 }
 
-func NewMainFile() *MainFile {
-	return &MainFile{"main", template.MAIN}
+func NewLoggerFile() *LoggerFile {
+	return &LoggerFile{"logger", template.Logger}
 }
 
-func (f *MainFile) Write(path string) {
+func (f *LoggerFile) Write(path string) {
 	template.Create(path, fmt.Sprintf("%s.go", f.name), string(f.tpl), nil)
 }

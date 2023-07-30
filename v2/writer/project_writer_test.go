@@ -21,7 +21,7 @@ const testDir = "./test-data/"
 func TestProjectWriter(t *testing.T) {
 	url := url.NewBuilder().Path("/test").Handler("Test").Method(http.MethodGet).Build()
 	endpoint := endpoint.NewBuilder().Name("test").Urls([]model.Url{url}).Build()
-	middleware := middleware.NewBuilder().Defualt("test").Build()
+	middleware := middleware.NewBuilder().Name("test").Build()
 
 	service := service.NewBuilder().Name("service").
 		Port(9090).
@@ -38,6 +38,7 @@ func TestProjectWriter(t *testing.T) {
 
 	assertExists(t, "my-project")
 	assertExists(t, "my-project/service")
+	assertExists(t, "my-project/service/go.mod")
 	assertExists(t, "my-project/service/api")
 	assertExists(t, "my-project/service/cmd")
 	assertExists(t, "my-project/service/bin")
@@ -50,6 +51,10 @@ func TestProjectWriter(t *testing.T) {
 	assertExists(t, "my-project/service/api/middlewares/test/test.go")
 	assertExists(t, "my-project/service/cmd/service")
 	assertExists(t, "my-project/service/cmd/service/main.go")
+	assertExists(t, "my-project/service/pkg")
+	assertExists(t, "my-project/service/pkg/logger")
+	assertExists(t, "my-project/service/pkg/logger/logger.go")
+	assertExists(t, "my-project/service/pkg/logger/request_logger.go")
 
 	os.RemoveAll(testDir)
 
