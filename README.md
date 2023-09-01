@@ -5,7 +5,7 @@ Introducing a tool for effortlessly creating projects following the micro-servic
 ## Installation
 
 ```
-go install -v github.com/AdamShannag/jot/cmd/jot@latest
+go install -v github.com/AdamShannag/jot/v2/cli/cmd/jot@latest
 ```
 
 ## How to use this tool
