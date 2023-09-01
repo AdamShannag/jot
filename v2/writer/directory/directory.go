@@ -1,7 +1,7 @@
 package directory
 
 import (
-	"fmt"
+	"path/filepath"
 
 	"github.com/AdamShannag/jot/v2/writer/file"
 )
@@ -25,7 +25,7 @@ func NewDirectory(name string, directories []*Directory, files []file.File, writ
 
 // Creates the directories with thier related files and directories at the specified path
 func (d *Directory) Create(p string) {
-	path := fmt.Sprintf("%s%s/", p, d.Name)
+	path := filepath.Join(p, d.Name)
 
 	d.writer.Write(path)
 
