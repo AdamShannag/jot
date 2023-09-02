@@ -38,7 +38,7 @@ func (p *PrompterImpl) endpointPrompt() {
 
 func (p *PrompterImpl) middlewarePrompt() {
 	i, _ := p.Select("Select service", p.servicesSlice()...)
-	newMiddleware := middleware.NewBuilder().Name(p.Prompt("New Endpoint Name", invalidStringValidator)).Build()
+	newMiddleware := middleware.NewBuilder().Name(p.Prompt("New Middleware Name", invalidStringValidator)).Build()
 	p.services[i].Middlewares = append(p.services[i].Middlewares, newMiddleware)
 }
 

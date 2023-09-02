@@ -1,6 +1,7 @@
 # Jot
+
 <img alt="jot" src="assets/jot.png" />
-Introducing a tool for effortlessly creating projects following the micro-services architecture. This tool streamlines project generation, offering modular components and automated dependency management. It simplifies the complexities of micro-services development, empowering the delivery of high-quality, scalable projects with ease.
+Introducing a tool for effortlessly creating projects following the micro-services architecture. This tool streamlines project generation with modular components. It simplifies the complexities of micro-services development, empowering the delivery of high-quality, scalable projects with ease.
 
 ## Installation
 
@@ -8,79 +9,26 @@ Introducing a tool for effortlessly creating projects following the micro-servic
 go install -v github.com/AdamShannag/jot/v2/cli/cmd/jot@latest
 ```
 
-## How to use this tool
+## How to Use This Tool
 
-Leverage `jot` for effortless project generation. Execute the necessary commands to create services, endpoints, and middlewares, while enjoying the simplicity and time-saving benefits.
+To generate a service, endpoint, or middleware using this tool, follow these simple steps:
 
-### Creating a new project
+### Creating a Service
 
-Easily initiate a new project using `jot`. Just execute the following command:
+1. Run the command: `jot new`
+2. Choose the option for creating a service.
+3. Provide a name for your service and specify the port.
+4. If this is a new project, also enter the project path.
 
-```
-jot init project-path project-name
-```
+### Creating an Endpoint or Middleware
 
-You can also use a shorter version of the command if you don't need to specify the project name:
+1. Run the command: `jot new`
+2. Select either "endpoint" or "middleware" as your choice.
+3. Choose the service where you want to add the endpoint or middleware.
+4. Enter the name for your endpoint or middleware.
 
-```
-jot init project-path
-```
+These straightforward steps will help you generate the necessary components for your project.
 
-This will create a new project directory at the specified path, and also generates a "jot.yaml" file, used by the tool itself to manage micro-services and their components.
+## Project Generation using code
 
-### Creating a New Service with Endpoints and Middlewares
-
-To create a new service within your project, follow these commands executed from the project directory that contains the "jot.yaml" file:
-
-1. Create a simple service without any endpoints or middlewares:
-
-```
-jot add --service service-name --port service-port
-```
-
-2. Create or add endpoints to an existing service:
-
-```
-jot add --service service-name --port service-port --rest --endpoints first-endpoint,second-endpoint
-```
-
-3. Create or add middlewares to an existing service:
-
-```
-jot add --service service-name --port service-port --rest --middlewares first-middleware,second-middleware
-```
-
-4. Create or add both endpoints and middlewares simultaneously:
-
-```
-jot add --service service-name --port service-port --rest --endpoints first-endpoint,second-endpoint --middlewares first-middleware,second-middleware
-```
-
-A service can contain both endpoints and middlewares. Currently, you can generate RESTful endpoints or middlewares by utilizing the "--rest" flag in combination with the "--endpoints" or "--middlewares" flag.
-
-Furthermore, you have the option to include the "--crud" flag to generate simple stub functions for REST operations on an endpoint or more.
-
-```
-jot add --service service-name --port service-port --rest --crud --endpoints first-endpoint,second-endpoint
-```
-
-Certain flags in the command have shorter versions for convenience:
-
-- Instead of `--service`, you can use `--srv`.
-- Instead of `--port`, you can use `--p`.
-- Instead of `--endpoints`, you can use `--end`.
-- Instead of `--middlewares`, you can use `--mid`.
-
-For example:
-
-```
-jot add --srv service-name --p service-port --rest --end first-endpoint,second-endpoint --mid first-middleware,second-middleware
-```
-
-To explore additional commands and get more detailed information, you can utilize the help command:
-
-```
-jot help
-```
-
-This command provides a comprehensive overview of available commands, their usage, and any additional details you may need while working with Jot.
+You can leverage the built-in API along with writer modules to create your projects in Golang. The API provides builders for projects, services, endpoints, and middleware. After constructing the project structure, simply pass it to the project writer and call the `Write(path)` method to generate your project.
