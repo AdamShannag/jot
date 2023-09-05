@@ -32,12 +32,20 @@ func (p *PrompterImpl) servicePrompt() {
 
 func (p *PrompterImpl) endpointPrompt() {
 	i, _ := p.Select("Select service", p.servicesSlice()...)
+	if i == len(p.services) {
+		p.startPrompts()
+		return
+	}
 	newEndpoint := endpoint.NewBuilder().Name(p.Prompt("New Endpoint Name", invalidStringValidator)).Build()
 	p.services[i].Endpoints = append(p.services[i].Endpoints, newEndpoint)
 }
 
 func (p *PrompterImpl) middlewarePrompt() {
 	i, _ := p.Select("Select service", p.servicesSlice()...)
+	if i == len(p.services) {
+		p.startPrompts()
+		return
+	}
 	newMiddleware := middleware.NewBuilder().Name(p.Prompt("New Middleware Name", invalidStringValidator)).Build()
 	p.services[i].Middlewares = append(p.services[i].Middlewares, newMiddleware)
 }

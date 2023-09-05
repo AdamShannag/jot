@@ -7,7 +7,10 @@ import (
 
 func (p *PrompterImpl) new() {
 	p.walkServices()
+	p.startPrompts()
+}
 
+func (p *PrompterImpl) startPrompts() {
 	switch p.creationPrompt() {
 	case SERVICE:
 		p.servicePrompt()
