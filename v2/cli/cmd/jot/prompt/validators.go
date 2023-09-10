@@ -21,3 +21,20 @@ func invalidStringValidator(input string) error {
 	}
 	return nil
 }
+
+func invalidNumberValidator(input string) error {
+	if input == "" {
+		return errors.New("[Input is empty]")
+	}
+	if len(input) > 9 {
+		return errors.New("[Input is too long]")
+	}
+	matched, err := regexp.Match("^[0-9]*$", []byte(input))
+	if err != nil {
+		return err
+	}
+	if !matched {
+		return errors.New("[Invalid input]")
+	}
+	return nil
+}

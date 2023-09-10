@@ -22,7 +22,7 @@ func (p *PrompterImpl) creationPrompt() string {
 func (p *PrompterImpl) servicePrompt() {
 	var srv model.Service
 	srv.Name = p.Prompt("Service Name", invalidStringValidator)
-	port, err := strconv.ParseInt(p.Prompt("Service Port", invalidStringValidator), 10, 64)
+	port, err := strconv.ParseInt(p.Prompt("Service Port", invalidNumberValidator), 10, 64)
 	if err != nil {
 		log.Fatal(err)
 	}
