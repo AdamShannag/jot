@@ -53,6 +53,6 @@ func (p *PrompterImpl) middlewarePrompt() {
 func (p *PrompterImpl) projectPrompt() {
 	if p.projectPath == "" {
 		fmt.Println("project path not found!")
-		p.projectPath = p.Prompt("Project Path", invalidStringValidator)
+		p.projectPath = p.Prompt("Project Path", invalidProjectPathValidator)
 	}
 }

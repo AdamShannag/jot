@@ -11,7 +11,7 @@ func main() {
 	if len(os.Args) > 1 {
 		run(prompt.NewPrompterImpl(), os.Args[1])
 	} else {
-		fmt.Println("Jot v2.6.5")
+		fmt.Println("Jot v2.6.7")
 	}
 }
 
